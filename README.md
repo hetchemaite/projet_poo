@@ -32,13 +32,11 @@ Travail à fournir
 =================
 
 
-Gestion des déplacements
-------------------------
+## Gestion des déplacements
 
 Les mouvements du joueur sont limités par le cadre de la carte, les éléments de décors et les caisses. Les caisses doivent pouvoir être déplacées par le joueur si rien ne gêne dans le sens de la poussée. Le joueur ne peut déplacer qu'une seule caisse à la fois. Si un bonus se trouve dans la direction déplacement d’une caisse, la caisse reste bloquée. Le joueur ne peux pas déplacer deux caisses à la fois. Le joueur peut marcher sur une case où se trouve un bonnus, une clé, ou un autre personnage. 
 
-Gestion des mondes
-------------------
+## Gestion des mondes
 
 Les cartes sont décrites dans des fichiers dans le dossier `world`. Nous définissons les conventions
 suivantes :
@@ -54,12 +52,13 @@ suivantes :
 définit dans le fichier `MapEntity.java`.
 
 
-### Chargement des cartes
+## Chargement des cartes
 
 Modifiez la classe `Game` pour que le monde du jeu soit chargé depuis les fichiers du dossier `world`.
 
 
-### Gestion des portes
+## Gestion des portes
+
 
 Lorsque le joueur arrive sur la case d’une porte ouverte, il passe
 automatiquement au niveau correspondant à cette porte (niveau supérieur
@@ -69,14 +68,13 @@ clefs de son inventaire. Pour ce faire, il doit appuyer sur la touche `[ENTER]` 
 l’inventaire. Chaque clef peut ouvrir indifféremment n’importe quelle
 porte fermée. Une fois qu'une porte est ouverte, elle le reste pour toute la partie du jeu.
 
-### Gestion du panneau d’informations
+## Gestion du panneau d’informations
 
 Le panneau d’information doit afficher le nombre de vies, le nombre de
 bombes et leur portée, le nombre de clés dans l’inventaire et le numéro
 de niveau courant.
 
-Gestion des bombes
-------------------
+## Gestion des bombes
 
 Lorsque le joueur presse la touche `[ESPACE]`, il dépose une bombe sur
 la case sur laquelle il se trouve, déclenchant une explosion au bout de
@@ -94,8 +92,7 @@ l’inventaire du joueur.
 Si le joueur pose une bombe et change ensuite de niveau en franchissant une porte, la bombe doit tout de même exploser au bout de 4 secondes. Les éléments de décors détruits sur un niveau doivent le rester pendant toute la durée de la partie.
 
 
-Gestion des bonus et malus
---------------------------
+## Gestion des bonus et malus
 
 Les bonus et malus peuvent être sur la carte ou apparaitre lors de
 l’explosion d’une caisse. Il en existe 5 :
@@ -111,34 +108,25 @@ l’explosion d’une caisse. Il en existe 5 :
 
 -   **vie+** : ajoute une vie.
 
-Gestion des vies
-----------------
+## Gestion des vies
 
 Le joueur dispose de 3 vies au démarrage du jeu. Il peut en perdre s’il
 se trouve sur une case à portée de l’explosion d’une bombe ou s'il croise un monstre. Si le joueur
 n’a plus de vie, la partie se termine. Le joueur bénéficie alors d’une temporisation d'une seconde pendant laquelle il est invulnérable.
 
-Gestion des monstres
---------------------
+## Gestion des monstres
 
 Les monstres peuvent être présents dès le chargement de la carte ou
 apparaitre à l’explosion d’une caisse. Leurs déplacements sont
 entièrement aléatoires. Une collision avec un monstre déclenche la perte
-d’une vie. 
-
-Commencez par ajouter un seul monstre à la fois, puis augmenter le
-nombre de monstres. La vitesse de déplacement des monstres doit être
-faible dans les premiers niveaux et augmenter plus on se rapproche de la
-princesse. 
-
-Les monstres ne peuvent pas ramasser les bonus qui se trouvent sur le
+d’une vie. Commencez par ajouter un seul monstre à la fois, puis augmenter le
+nombre de monstres. Les monstres ne peuvent pas ramasser les bonus qui se trouvent sur le
 sol. Les monstres ont peur des portes et ne peuvent pas les franchir.
 
-Ajouter un module d’intelligence artificielle pour que les monstres se dirigent vers le joueur et non
-plus de manière aléatoire.
+**Pour aller plus loin.** Faire en sorte que La vitesse de déplacement des monstres soit faible dans les premiers niveaux et augmente plus on se rapproche de la
+princesse. Ajouter ensuite un module d’intelligence artificielle pour que les monstres des derniers niveaux se dirigent vers le joueur et non plus de manière aléatoire.
 
-Fin de partie
--------------
+## Fin de partie
 
 La partie est finit lorsque le joueur arrive sur la case de la
 princesse. Les monstres ne veulent pas de mal à la princesse mais feront
