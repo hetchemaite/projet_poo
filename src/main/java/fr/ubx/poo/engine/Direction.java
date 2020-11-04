@@ -30,13 +30,13 @@ public enum Direction {
         int y = pos.getY();
         switch (this) {
             case N:
-                return new Position(pos.getLevel(), x, y - delta);
+                return new Position(x, y - delta);
             case E:
-                return new Position(pos.getLevel(), x + delta, y);
+                return new Position(x + delta, y);
             case S:
-                return new Position(pos.getLevel(), x, y + delta);
+                return new Position(x, y + delta);
             case W:
-                return new Position(pos.getLevel(), x - delta, y);
+                return new Position(x - delta, y);
         }
         throw new RuntimeException("Invalid enum member for Position.next: " + this);
     }

@@ -4,25 +4,27 @@
 
 package fr.ubx.poo.sprite;
 
-import fr.ubx.poo.go.GameObject;
-import fr.ubx.poo.go.decor.Stone;
-import fr.ubx.poo.go.decor.Tree;
-import fr.ubx.poo.go.personage.Player;
+import fr.ubx.poo.engine.Position;
+import fr.ubx.poo.entity.Entity;
+import fr.ubx.poo.entity.decor.Stone;
+import fr.ubx.poo.entity.decor.Tree;
+import fr.ubx.poo.entity.go.personage.Player;
 import javafx.scene.layout.Pane;
 
 
-public class SpriteFactory {
+public final class SpriteFactory {
 
-
-    public static Sprite create(Pane layer, GameObject go) {
+    public static Sprite create(Pane layer, Position position, Entity go) {
         if (go instanceof Stone)
-            return new Sprite(go, layer, SpriteImages.STONE);
+            return new SpriteDecor(layer, Sprite.IMG_STONE, position);
         if (go instanceof Tree)
-            return new Sprite(go, layer, SpriteImages.TREE);
+            return new SpriteDecor(layer, Sprite.IMG_TREE, position);
         if (go instanceof Player) {
-            return new SpritePlayer((Player) go, layer, SpriteImages.PLAYERS);
+            return new SpritePlayer(layer, Sprite.IMG_PLAYERS, (Player) go);
         }
         return null;
     }
 
+    private SpriteFactory() {
+    }
 }

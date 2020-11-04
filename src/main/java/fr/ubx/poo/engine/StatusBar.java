@@ -5,8 +5,7 @@
 package fr.ubx.poo.engine;
 
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.go.personage.Player;
-import fr.ubx.poo.sprite.SpriteImages;
+import fr.ubx.poo.sprite.Sprite;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -32,7 +31,7 @@ public class StatusBar {
         this.game = game;
 
         level.getStyleClass().add("level");
-        level.getChildren().add(new ImageView(SpriteImages.NUMBER[gameLevel]));
+        level.getChildren().add(new ImageView(Sprite.IMG_NUMBER[gameLevel]));
 
         ds.setRadius(5.0);
         ds.setOffsetX(3.0);
@@ -42,10 +41,10 @@ public class StatusBar {
 
         HBox status = new HBox();
         status.getStyleClass().add("status");
-        HBox life = statusGroup(SpriteImages.HEART, this.lifeValue);
-        HBox bombs = statusGroup(SpriteImages.BANNER_BOMB, bombsValue);
-        HBox range = statusGroup(SpriteImages.BANNER_RANGE, rangeValue);
-        HBox key = statusGroup(SpriteImages.KEY, keyValue);
+        HBox life = statusGroup(Sprite.IMG_HEART, this.lifeValue);
+        HBox bombs = statusGroup(Sprite.IMG_BANNER_BOMB, bombsValue);
+        HBox range = statusGroup(Sprite.IMG_BANNER_RANGE, rangeValue);
+        HBox key = statusGroup(Sprite.IMG_KEY, keyValue);
         status.setSpacing(40.0);
         status.getChildren().addAll(life, bombs, range, key);
 
@@ -59,7 +58,7 @@ public class StatusBar {
     private void updateLevel(int n) {
         if (n != gameLevel) {
             level.getChildren().clear();
-            level.getChildren().add(new ImageView(SpriteImages.NUMBER[n]));
+            level.getChildren().add(new ImageView(Sprite.IMG_NUMBER[n]));
         }
     }
 
@@ -76,8 +75,8 @@ public class StatusBar {
     }
 
     public void update(Game game) {
-        updateLevel(game.getCurrentLevel());
-        lifeValue.setText("?");
+        updateLevel(1);
+        lifeValue.setText(String.valueOf(game.getPlayer().getLives()));
         rangeValue.setText("?");
         bombsValue.setText("?");
         keyValue.setText("?");

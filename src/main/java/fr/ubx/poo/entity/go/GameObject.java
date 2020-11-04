@@ -2,18 +2,15 @@
  * Copyright (c) 2020. Laurent Réveillère
  */
 
-package fr.ubx.poo.go;
+package fr.ubx.poo.entity.go;
 
 import fr.ubx.poo.engine.Position;
+import fr.ubx.poo.entity.Entity;
 import fr.ubx.poo.game.Game;
 
-public abstract class GameObject {
+public abstract class GameObject extends Entity {
     protected final Game game;
     private Position position;
-    public GameObject(Game game, Position position) {
-        this.game = game;
-        this.position = position;
-    }
 
 
     public Position getPosition() {
@@ -24,7 +21,8 @@ public abstract class GameObject {
         this.position = position;
     }
 
-    public abstract void update(long now);
-
-
+    public GameObject(Game game, Position position) {
+        this.game = game;
+        this.position = position;
+    }
 }

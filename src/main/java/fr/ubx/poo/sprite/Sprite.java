@@ -4,52 +4,66 @@
 
 package fr.ubx.poo.sprite;
 
-import fr.ubx.poo.go.GameObject;
-import javafx.scene.effect.Effect;
+import fr.ubx.poo.engine.Position;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-public class Sprite {
+public abstract class Sprite {
+
+    // Decor
+    public static final Image IMG_STONE = loadImage("stone.png");
+    public static final Image IMG_TREE = loadImage("tree.png");
+
+    // Bonus
+    public static final Image IMG_HEART = loadImage("heart.png");
+    public static final Image IMG_KEY = loadImage("key.png");
+
+    // Personage
+    public static final Image[] IMG_PLAYERS = {
+            loadImage("player_up.png"),
+            loadImage("player_right.png"),
+            loadImage("player_down.png"),
+            loadImage("player_left.png")};
+
+    // Status bar
+    public static final Image[] IMG_NUMBER = {
+            loadImage("banner_0.jpg"),
+            loadImage("banner_1.jpg"),
+            loadImage("banner_2.jpg"),
+            loadImage("banner_3.jpg"),
+            loadImage("banner_4.jpg"),
+            loadImage("banner_5.jpg"),
+            loadImage("banner_6.jpg"),
+            loadImage("banner_7.jpg"),
+            loadImage("banner_8.jpg"),
+            loadImage("banner_9.jpg")};
+    public static final Image IMG_BANNER_BOMB = loadImage("banner_bomb.png");
+    public static final Image IMG_BANNER_RANGE = loadImage("banner_range.png");
 
     public static final int size = 40;
     private final Pane layer;
-    private final GameObject go;
-    private ImageView imageView = null;
+    private ImageView imageView;
     private Image image;
-    private Effect effect;
 
-    public Sprite(GameObject go, Pane layer, Image image, Effect effect) {
-        this.go = go;
+    public Sprite(Pane layer, Image image) {
         this.layer = layer;
-        setImage(image, effect);
+        this.image = image;
     }
 
-    public Sprite(GameObject go, Pane layer, Image image) {
-        this(go, layer, image, null);
-    }
-
-    public Sprite(GameObject go, Pane layer) {
-        this(go, layer, null, null);
-    }
-
-    public GameObject getGameObject() {
-        return go;
-    }
-
-    public final void setImage(Image image, Effect effect) {
-        if (this.image == null || (this.image != image || this.effect != effect)) {
-            this.image = image;
-            this.effect = effect;
-        }
+    private static Image loadImage(String file) {
+        return new Image(Sprite.class.getResource("/images/" + file).toExternalForm());
     }
 
     public final void setImage(Image image) {
-        setImage(image, null);
+        if (this.image == null || this.image != image) {
+            this.image = image;
+        }
     }
 
-    public void updateImage() {
-    }
+    public abstract void updateImage();
+
+    public abstract Position getPosition();
 
     public final void render() {
         if (imageView != null) {
@@ -57,9 +71,8 @@ public class Sprite {
         }
         updateImage();
         imageView = new ImageView(this.image);
-        imageView.setEffect(effect);
-        imageView.setX(go.getPosition().getX() * size);
-        imageView.setY(go.getPosition().getY() * size);
+        imageView.setX(getPosition().getX() * size);
+        imageView.setY(getPosition().getY() * size);
         layer.getChildren().add(imageView);
     }
 

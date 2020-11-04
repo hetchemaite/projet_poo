@@ -4,8 +4,8 @@
 
 package fr.ubx.poo.engine;
 
+import fr.ubx.poo.entity.go.personage.Player;
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.go.personage.Player;
 import fr.ubx.poo.sprite.Sprite;
 import fr.ubx.poo.sprite.SpriteFactory;
 import javafx.animation.AnimationTimer;
@@ -30,11 +30,11 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
+    private final List<Sprite> sprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
     private Stage stage;
-    private final List<Sprite> sprites = new ArrayList<>();
     private Sprite spritePlayer;
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
@@ -50,8 +50,8 @@ public final class GameEngine {
         Group root = new Group();
         layer = new Pane();
 
-        int height = game.getMap(game.getCurrentLevel()).getHeight();
-        int width = game.getMap(game.getCurrentLevel()).getWidth();
+        int height = game.getMap().getHeight();
+        int width = game.getMap().getWidth();
         int sceneWidth = width * Sprite.size;
         int sceneHeight = height * Sprite.size;
         Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.statusBarHeight);
@@ -65,22 +65,23 @@ public final class GameEngine {
         input = new Input(scene);
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
-        game.getMap(game.getCurrentLevel()).forEach(go -> sprites.add(SpriteFactory.create(layer, go)));
-        spritePlayer = SpriteFactory.create(layer, player);
+        // Create decor sprites
+        game.getMap().forEach( (pos,go) -> sprites.add(SpriteFactory.create(layer, pos, go)));
+        spritePlayer = SpriteFactory.create(layer, player.getPosition(), player);
     }
 
     protected final void buildAndSetGameLoop() {
         gameLoop = new AnimationTimer() {
             public void handle(long now) {
-                    // Listen keyboard actions
-                    processInput(now);
+                // Check keyboard actions
+                processInput(now);
 
-                    // Do actions
-                    update(now);
+                // Do actions
+                update(now);
 
-                    // Graphic update
-                    render();
-                    statusBar.update(game);
+                // Graphic update
+                render();
+                statusBar.update(game);
             }
         };
     }
