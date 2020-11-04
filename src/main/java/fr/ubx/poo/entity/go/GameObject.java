@@ -5,10 +5,9 @@
 package fr.ubx.poo.entity.go;
 
 import fr.ubx.poo.engine.Position;
-import fr.ubx.poo.entity.Entity;
 import fr.ubx.poo.game.Game;
 
-public abstract class GameObject extends Entity {
+public abstract class GameObject {
     protected final Game game;
     private Position position;
 

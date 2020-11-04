@@ -5,11 +5,9 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.engine.Position;
-import fr.ubx.poo.entity.Entity;
 import fr.ubx.poo.entity.decor.Decor;
 import fr.ubx.poo.entity.decor.Stone;
 import fr.ubx.poo.entity.decor.Tree;
-import fr.ubx.poo.entity.go.personage.Player;
 
 import java.util.Collection;
 import java.util.Hashtable;
