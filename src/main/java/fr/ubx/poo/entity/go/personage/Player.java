@@ -39,6 +39,7 @@ public class Player extends GameObject implements Movable {
         moveRequested = true;
     }
 
+    @Override
     public boolean canMove(Direction direction) {
         return true;
     }

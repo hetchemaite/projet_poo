@@ -4,6 +4,7 @@
 
 package fr.ubx.poo.engine;
 
+import fr.ubx.poo.entity.Movable;
 import fr.ubx.poo.entity.go.personage.Player;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.sprite.Sprite;
@@ -68,6 +69,7 @@ public final class GameEngine {
         // Create decor sprites
         game.getMap().forEach( (pos,go) -> sprites.add(SpriteFactory.create(layer, pos, go)));
         spritePlayer = SpriteFactory.create(layer, player.getPosition(), player);
+
     }
 
     protected final void buildAndSetGameLoop() {
