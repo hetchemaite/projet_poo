@@ -6,6 +6,7 @@ package fr.ubx.poo.game;
 
 
 
+import fr.ubx.poo.engine.Position;
 import fr.ubx.poo.entity.go.personage.Player;
 
 import static fr.ubx.poo.game.MapEntity.*;
@@ -35,12 +36,11 @@ public class Game {
     private Player player;
 
     public Game() {
-        map = new Map(this, mapEntities);
-        map.values().forEach( go -> {
-            if (go instanceof Player) player = (Player) go;
-        });
-        if (player == null)
+        map = new Map(mapEntities);
+        Position positionPlayer = map.findPlayer(mapEntities);
+        if (positionPlayer == null)
             throw new RuntimeException("No player found");
+        player = new Player(this, positionPlayer);
     }
 
     public Map getMap() {
