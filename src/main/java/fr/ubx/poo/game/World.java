@@ -23,7 +23,7 @@ public class World {
         grid = WorldBuilder.build(raw, dimension);
     }
 
-    public Position findPlayer(WorldEntity[][] raw) {
+    public Position findPlayer(WorldEntity[][] raw) throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == WorldEntity.Player) {
@@ -31,7 +31,7 @@ public class World {
                 }
             }
         }
-        return null;
+        throw new PositionNotFoundException("Player");
     }
 
     public Decor get(Position position) {

@@ -35,9 +35,14 @@ public enum Direction {
 
     private static final Random randomGenerator = new Random();
 
+    /***
+     *
+     * @return a pseudorandom direction
+     */
     public static Direction random() {
         return values()[randomGenerator.nextInt(values().length)];
     }
+
 
     public abstract Position nextPosition(Position pos, int delta);
 

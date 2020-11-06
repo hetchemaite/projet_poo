@@ -42,10 +42,14 @@ public class Game {
         world = new World(mapEntities);
         this.worldPath = worldPath;
         loadConfig(worldPath);
-        Position positionPlayer = world.findPlayer(mapEntities);
-        if (positionPlayer == null)
-            throw new RuntimeException("No player found");
-        player = new Player(this, positionPlayer);
+        Position positionPlayer = null;
+        try {
+            positionPlayer = world.findPlayer(mapEntities);
+            player = new Player(this, positionPlayer);
+        } catch (PositionNotFoundException e) {
+            System.err.println("Position not found : " + e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     public int getInitPlayerLives() {
