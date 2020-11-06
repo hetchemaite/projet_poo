@@ -36,7 +36,7 @@ public final class SpriteFactory {
     private static Image loadImage(String file) {
         return new Image(Sprite.class.getResource("/images/" + file).toExternalForm());
     }
-    
+
     public static Sprite createDecor(Pane layer, Position position, Decor decor) {
         if (decor instanceof Stone)
             return new SpriteDecor(layer, IMG_STONE, position);

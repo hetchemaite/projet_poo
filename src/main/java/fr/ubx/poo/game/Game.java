@@ -5,16 +5,18 @@
 package fr.ubx.poo.game;
 
 
-
 import fr.ubx.poo.engine.Position;
 import fr.ubx.poo.entity.go.personage.Player;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import static fr.ubx.poo.game.MapEntity.*;
 
 public class Game {
-    public static final int PLAYER_LIVES = 3;
-
-
     public static final MapEntity[][] mapEntities =
             {
                     {Stone, Empty, Heart, Empty, Empty, Empty, Empty, Empty, Empty, Empty, BombRangeDec, Empty},
@@ -31,16 +33,34 @@ public class Game {
                     {Empty, DoorNextClosed, Empty, Empty, Empty, Empty, Empty, Empty, Monster, Empty, Empty, Empty},
                     {Empty, BombNumberDec, Empty, Empty, Empty, Empty, Empty, Empty, BombNumberInc, Empty, Empty, Princess}
             };
-
     private final Map map;
-    private Player player;
+    private final Player player;
+    private final String worldPath;
+    public int initPlayerLives;
 
-    public Game() {
+    public Game(String worldPath) {
         map = new Map(mapEntities);
+        this.worldPath = worldPath;
+        loadConfig(worldPath);
         Position positionPlayer = map.findPlayer(mapEntities);
         if (positionPlayer == null)
             throw new RuntimeException("No player found");
         player = new Player(this, positionPlayer);
+    }
+
+    public int getInitPlayerLives() {
+        return initPlayerLives;
+    }
+
+    private void loadConfig(String path) {
+        try (InputStream input = new FileInputStream(new File(path, "config.properties"))) {
+            Properties prop = new Properties();
+            // load the configuration file
+            prop.load(input);
+            initPlayerLives = Integer.parseInt(prop.getProperty("lives", "3"));
+        } catch (IOException ex) {
+            System.err.println("Error loading configuration");
+        }
     }
 
     public Map getMap() {

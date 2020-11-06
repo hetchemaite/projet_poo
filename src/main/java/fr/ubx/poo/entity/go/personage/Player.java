@@ -21,7 +21,7 @@ public class Player extends GameObject implements Movable {
     public Player(Game game, Position position) {
         super(game, position);
         this.direction = Direction.S;
-        this.lives = Game.PLAYER_LIVES;
+        this.lives = game.getInitPlayerLives();
     }
 
     public int getLives() {

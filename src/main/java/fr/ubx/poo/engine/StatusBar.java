@@ -53,8 +53,6 @@ public class StatusBar {
 
     public StatusBar(Group root, int sceneWidth, int sceneHeight, Game game) {
         // Status bar
-
-
         this.game = game;
 
         level.getStyleClass().add("level");
