@@ -7,7 +7,7 @@ package fr.ubx.poo.game;
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum MapEntity {
+public enum WorldEntity {
     Empty('_'),
     Box('B'),
     Heart('H'),
@@ -33,11 +33,11 @@ public enum MapEntity {
 
     private final char code;
 
-    MapEntity(char code) {
+    WorldEntity(char code) {
         this.code = code;
     }
 
-    public static Optional<MapEntity> fromCode(char code) {
+    public static Optional<WorldEntity> fromCode(char code) {
         return Arrays.stream(values())
                 .filter(c -> c.getCode() == code)
                 .findFirst();

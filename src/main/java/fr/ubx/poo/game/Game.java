@@ -14,13 +14,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static fr.ubx.poo.game.MapEntity.*;
+import static fr.ubx.poo.game.WorldEntity.*;
 
 public class Game {
-    public static final MapEntity[][] mapEntities =
+    public static final WorldEntity[][] mapEntities =
             {
                     {Stone, Empty, Heart, Empty, Empty, Empty, Empty, Empty, Empty, Empty, BombRangeDec, Empty},
-                    {MapEntity.Player, Stone, Stone, Empty, Stone, Empty, Stone, Stone, Stone, Stone, Empty, Empty},
+                    {WorldEntity.Player, Stone, Stone, Empty, Stone, Empty, Stone, Stone, Stone, Stone, Empty, Empty},
                     {Empty, Empty, Empty, Empty, Stone, Box, Stone, Empty, Empty, Stone, Empty, Empty},
                     {Empty, Empty, Empty, Empty, Stone, Box, Stone, Empty, Empty, Stone, Empty, Empty},
                     {Empty, Box, Empty, Empty, Stone, Stone, Stone, Empty, Empty, Empty, Empty, Empty},
@@ -33,16 +33,16 @@ public class Game {
                     {Empty, DoorNextClosed, Empty, Empty, Empty, Empty, Empty, Empty, Monster, Empty, Empty, Empty},
                     {Empty, BombNumberDec, Empty, Empty, Empty, Empty, Empty, Empty, BombNumberInc, Empty, Empty, Princess}
             };
-    private final Map map;
+    private final World world;
     private final Player player;
     private final String worldPath;
     public int initPlayerLives;
 
     public Game(String worldPath) {
-        map = new Map(mapEntities);
+        world = new World(mapEntities);
         this.worldPath = worldPath;
         loadConfig(worldPath);
-        Position positionPlayer = map.findPlayer(mapEntities);
+        Position positionPlayer = world.findPlayer(mapEntities);
         if (positionPlayer == null)
             throw new RuntimeException("No player found");
         player = new Player(this, positionPlayer);
@@ -63,8 +63,8 @@ public class Game {
         }
     }
 
-    public Map getMap() {
-        return map;
+    public World getWorld() {
+        return world;
     }
 
     public Player getPlayer() {

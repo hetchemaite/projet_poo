@@ -4,9 +4,9 @@
 
 package fr.ubx.poo.engine;
 
+import fr.ubx.poo.Main;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.sprite.Sprite;
-import fr.ubx.poo.sprite.SpriteFactory;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -16,14 +16,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class StatusBar {
-    public static final int statusBarHeight = 55;
-    HBox statusBar = new HBox();
-    Text lifeValue = new Text();
-    Text bombsValue = new Text();
-    Text rangeValue = new Text();
-    Text keyValue = new Text();
-    HBox level = new HBox();
-    int gameLevel = 1;
+    public static final int height = 55;
+    private HBox hBox = new HBox();
+    private Text lifeValue = new Text();
+    private Text bombsValue = new Text();
+    private Text rangeValue = new Text();
+    private Text keyValue = new Text();
+    private HBox level = new HBox();
+    private int gameLevel = 1;
 
     private final Game game;
     private final DropShadow ds = new DropShadow();
@@ -38,7 +38,8 @@ public class StatusBar {
             loadImage("banner_6.jpg"),
             loadImage("banner_7.jpg"),
             loadImage("banner_8.jpg"),
-            loadImage("banner_9.jpg")};
+            loadImage("banner_9.jpg"),
+    };
 
 
     private static final Image IMG_BANNER_BOMB = loadImage("banner_bomb.png");
@@ -47,7 +48,7 @@ public class StatusBar {
     private static final Image IMG_KEY = loadImage("key.png");
 
     private static Image loadImage(String file) {
-        return new Image(Sprite.class.getResource("/images/" + file).toExternalForm());
+        return new Image(Main.getResource("images", file));
     }
 
 
@@ -73,11 +74,11 @@ public class StatusBar {
         status.setSpacing(40.0);
         status.getChildren().addAll(life, bombs, range, key);
 
-        statusBar.getChildren().addAll(level, status);
-        statusBar.getStyleClass().add("statusBar");
-        statusBar.relocate(0, sceneHeight);
-        statusBar.setPrefSize(sceneWidth, statusBarHeight);
-        root.getChildren().add(statusBar);
+        hBox.getChildren().addAll(level, status);
+        hBox.getStyleClass().add("statusBar");
+        hBox.relocate(0, sceneHeight);
+        hBox.setPrefSize(sceneWidth, height);
+        root.getChildren().add(hBox);
     }
 
     private void updateLevel(int n) {

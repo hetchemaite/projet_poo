@@ -4,7 +4,7 @@
 
 package fr.ubx.poo.engine;
 
-import fr.ubx.poo.entity.Movable;
+import fr.ubx.poo.Main;
 import fr.ubx.poo.entity.go.personage.Player;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.sprite.Sprite;
@@ -51,12 +51,12 @@ public final class GameEngine {
         Group root = new Group();
         layer = new Pane();
 
-        int height = game.getMap().getHeight();
-        int width = game.getMap().getWidth();
+        int height = game.getWorld().dimension.height;
+        int width = game.getWorld().dimension.width;
         int sceneWidth = width * Sprite.size;
         int sceneHeight = height * Sprite.size;
-        Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.statusBarHeight);
-        scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+        Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
+        scene.getStylesheets().add(Main.getResource("css", "application.css"));
 
         stage.setTitle(windowTitle);
         stage.setScene(scene);
@@ -67,7 +67,7 @@ public final class GameEngine {
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
         // Create decor sprites
-        game.getMap().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+        game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
 
     }

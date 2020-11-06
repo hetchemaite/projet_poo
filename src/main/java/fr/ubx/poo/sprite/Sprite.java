@@ -37,8 +37,8 @@ public abstract class Sprite {
         }
         updateImage();
         imageView = new ImageView(this.image);
-        imageView.setX(getPosition().getX() * size);
-        imageView.setY(getPosition().getY() * size);
+        imageView.setX(getPosition().x * size);
+        imageView.setY(getPosition().y * size);
         layer.getChildren().add(imageView);
     }
 
