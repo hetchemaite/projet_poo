@@ -4,6 +4,7 @@
 
 package fr.ubx.poo.engine;
 
+import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.model.go.personage.Player;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.vue.sprite.Sprite;

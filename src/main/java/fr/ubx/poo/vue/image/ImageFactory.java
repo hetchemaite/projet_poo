@@ -4,7 +4,7 @@
 
 package fr.ubx.poo.vue.image;
 
-import fr.ubx.poo.engine.Direction;
+import fr.ubx.poo.game.Direction;
 import javafx.scene.image.Image;
 
 import static fr.ubx.poo.vue.image.ImageResource.*;

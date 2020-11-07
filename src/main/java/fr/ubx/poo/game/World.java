@@ -4,7 +4,6 @@
 
 package fr.ubx.poo.game;
 
-import fr.ubx.poo.engine.Position;
 import fr.ubx.poo.model.decor.Decor;
 
 import java.util.Collection;

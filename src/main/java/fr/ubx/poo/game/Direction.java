@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Laurent Réveillère
  */
 
-package fr.ubx.poo.engine;
+package fr.ubx.poo.game;
 
 import java.util.Random;
 

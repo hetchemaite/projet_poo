@@ -4,7 +4,7 @@
 
 package fr.ubx.poo.model;
 
-import fr.ubx.poo.engine.Direction;
+import fr.ubx.poo.game.Direction;
 
 public interface Movable {
     boolean canMove(Direction direction);

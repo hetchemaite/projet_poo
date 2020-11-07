@@ -4,7 +4,7 @@
 
 package fr.ubx.poo.vue.sprite;
 
-import fr.ubx.poo.engine.Position;
+import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
