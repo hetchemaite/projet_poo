@@ -66,9 +66,4 @@ public class Player extends GameObject implements Movable {
         return alive;
     }
 
-
-    @Override
-    public boolean Walkable() {
-        return false;
-    }
 }
