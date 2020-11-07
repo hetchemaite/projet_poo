@@ -2,12 +2,13 @@
  * Copyright (c) 2020. Laurent Réveillère
  */
 
-package fr.ubx.poo.entity.go.personage;
+package fr.ubx.poo.model.go.personage;
 
 import fr.ubx.poo.engine.Direction;
 import fr.ubx.poo.engine.Position;
-import fr.ubx.poo.entity.Movable;
-import fr.ubx.poo.entity.go.GameObject;
+import fr.ubx.poo.model.Movable;
+import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
 public class Player extends GameObject implements Movable {
@@ -67,4 +68,8 @@ public class Player extends GameObject implements Movable {
     }
 
 
+    @Override
+    public boolean Walkable() {
+        return false;
+    }
 }

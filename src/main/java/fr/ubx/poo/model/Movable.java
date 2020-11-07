@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Laurent Réveillère
  */
 
-package fr.ubx.poo.entity;
+package fr.ubx.poo.model;
 
 import fr.ubx.poo.engine.Direction;
 

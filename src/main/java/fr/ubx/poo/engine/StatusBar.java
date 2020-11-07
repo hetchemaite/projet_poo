@@ -4,9 +4,8 @@
 
 package fr.ubx.poo.engine;
 
-import fr.ubx.poo.Main;
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.sprite.Sprite;
+import fr.ubx.poo.vue.image.ImageFactory;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -14,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import static fr.ubx.poo.vue.image.ImageResource.*;
 
 public class StatusBar {
     public static final int height = 55;
@@ -28,28 +28,6 @@ public class StatusBar {
     private final Game game;
     private final DropShadow ds = new DropShadow();
 
-    private static final Image[] IMG_NUMBER = {
-            loadImage("banner_0.jpg"),
-            loadImage("banner_1.jpg"),
-            loadImage("banner_2.jpg"),
-            loadImage("banner_3.jpg"),
-            loadImage("banner_4.jpg"),
-            loadImage("banner_5.jpg"),
-            loadImage("banner_6.jpg"),
-            loadImage("banner_7.jpg"),
-            loadImage("banner_8.jpg"),
-            loadImage("banner_9.jpg"),
-    };
-
-
-    private static final Image IMG_BANNER_BOMB = loadImage("banner_bomb.png");
-    private static final Image IMG_BANNER_RANGE = loadImage("banner_range.png");
-    private static final Image IMG_HEART = loadImage("heart.png");
-    private static final Image IMG_KEY = loadImage("key.png");
-
-    private static Image loadImage(String file) {
-        return new Image(Main.getResource("images", file));
-    }
 
 
     public StatusBar(Group root, int sceneWidth, int sceneHeight, Game game) {
@@ -57,7 +35,7 @@ public class StatusBar {
         this.game = game;
 
         level.getStyleClass().add("level");
-        level.getChildren().add(new ImageView(IMG_NUMBER[gameLevel]));
+        level.getChildren().add(new ImageView(ImageFactory.instance.getDigit(gameLevel)));
 
         ds.setRadius(5.0);
         ds.setOffsetX(3.0);
@@ -67,10 +45,10 @@ public class StatusBar {
 
         HBox status = new HBox();
         status.getStyleClass().add("status");
-        HBox life = statusGroup(IMG_HEART, this.lifeValue);
-        HBox bombs = statusGroup(IMG_BANNER_BOMB, bombsValue);
-        HBox range = statusGroup(IMG_BANNER_RANGE, rangeValue);
-        HBox key = statusGroup(IMG_KEY, keyValue);
+        HBox life = statusGroup(ImageFactory.instance.get(HEART), this.lifeValue);
+        HBox bombs = statusGroup(ImageFactory.instance.get(BANNER_BOMB), bombsValue);
+        HBox range = statusGroup(ImageFactory.instance.get(BANNER_RANGE), rangeValue);
+        HBox key = statusGroup(ImageFactory.instance.get(KEY), keyValue);
         status.setSpacing(40.0);
         status.getChildren().addAll(life, bombs, range, key);
 
@@ -84,7 +62,7 @@ public class StatusBar {
     private void updateLevel(int n) {
         if (n != gameLevel) {
             level.getChildren().clear();
-            level.getChildren().add(new ImageView(IMG_NUMBER[n]));
+            level.getChildren().add(new ImageView(ImageFactory.instance.getDigit(n)));
         }
     }
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Laurent Réveillère
  */
 
-package fr.ubx.poo.sprite;
+package fr.ubx.poo.vue.sprite;
 
 import fr.ubx.poo.engine.Position;
 import javafx.scene.image.Image;

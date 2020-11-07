@@ -5,12 +5,9 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.engine.Position;
-import fr.ubx.poo.entity.decor.Decor;
-import fr.ubx.poo.entity.decor.Stone;
-import fr.ubx.poo.entity.decor.Tree;
+import fr.ubx.poo.model.decor.Decor;
 
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.function.BiConsumer;
 

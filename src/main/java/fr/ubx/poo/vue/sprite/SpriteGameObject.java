@@ -1,7 +1,7 @@
-package fr.ubx.poo.sprite;
+package fr.ubx.poo.vue.sprite;
 
 import fr.ubx.poo.engine.Position;
-import fr.ubx.poo.entity.go.GameObject;
+import fr.ubx.poo.model.go.GameObject;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 

@@ -4,11 +4,10 @@
 
 package fr.ubx.poo.engine;
 
-import fr.ubx.poo.Main;
-import fr.ubx.poo.entity.go.personage.Player;
+import fr.ubx.poo.model.go.personage.Player;
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.sprite.Sprite;
-import fr.ubx.poo.sprite.SpriteFactory;
+import fr.ubx.poo.vue.sprite.Sprite;
+import fr.ubx.poo.vue.sprite.SpriteFactory;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -56,7 +55,7 @@ public final class GameEngine {
         int sceneWidth = width * Sprite.size;
         int sceneHeight = height * Sprite.size;
         Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
-        scene.getStylesheets().add(Main.getResource("css", "application.css"));
+        scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 
         stage.setTitle(windowTitle);
         stage.setScene(scene);

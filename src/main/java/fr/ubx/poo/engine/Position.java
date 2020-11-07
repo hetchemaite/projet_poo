@@ -4,6 +4,8 @@
 
 package fr.ubx.poo.engine;
 
+import fr.ubx.poo.game.Dimension;
+
 import java.util.Objects;
 
 public class Position {
@@ -36,5 +38,9 @@ public class Position {
     @Override
     public String toString() {
         return "(" + x + "," + y + ")";
+    }
+
+    public boolean inside(Dimension d) {
+        return x >= 0 && x < d.width && y >= 0 && y < d.height;
     }
 }
