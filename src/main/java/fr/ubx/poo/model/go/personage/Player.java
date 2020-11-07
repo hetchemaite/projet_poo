@@ -7,7 +7,6 @@ package fr.ubx.poo.model.go.personage;
 import fr.ubx.poo.engine.Direction;
 import fr.ubx.poo.engine.Position;
 import fr.ubx.poo.model.Movable;
-import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 

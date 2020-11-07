@@ -18,7 +18,7 @@ import static fr.ubx.poo.vue.image.ImageResource.*;
 public class StatusBar {
     public static final int height = 55;
     private HBox hBox = new HBox();
-    private Text lifeValue = new Text();
+    private Text liveValue = new Text();
     private Text bombsValue = new Text();
     private Text rangeValue = new Text();
     private Text keyValue = new Text();
@@ -45,12 +45,12 @@ public class StatusBar {
 
         HBox status = new HBox();
         status.getStyleClass().add("status");
-        HBox life = statusGroup(ImageFactory.instance.get(HEART), this.lifeValue);
+        HBox live = statusGroup(ImageFactory.instance.get(HEART), this.liveValue);
         HBox bombs = statusGroup(ImageFactory.instance.get(BANNER_BOMB), bombsValue);
         HBox range = statusGroup(ImageFactory.instance.get(BANNER_RANGE), rangeValue);
         HBox key = statusGroup(ImageFactory.instance.get(KEY), keyValue);
         status.setSpacing(40.0);
-        status.getChildren().addAll(life, bombs, range, key);
+        status.getChildren().addAll(live, bombs, range, key);
 
         hBox.getChildren().addAll(level, status);
         hBox.getStyleClass().add("statusBar");
@@ -80,7 +80,7 @@ public class StatusBar {
 
     public void update(Game game) {
         updateLevel(1);
-        lifeValue.setText(String.valueOf(game.getPlayer().getLives()));
+        liveValue.setText(String.valueOf(game.getPlayer().getLives()));
         rangeValue.setText("?");
         bombsValue.setText("?");
         keyValue.setText("?");
