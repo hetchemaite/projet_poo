@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="readme.css">
+
+
 # Projet de POO
 
 Réalisation d'un jeu vidéo 2D : **UBomb**.
@@ -15,7 +18,7 @@ Chaque monde est représenté par une carte (rectangulaire) composée de cellule
 -   le joueur, la princesse ou des monstres
 -   des éléments de décors (arbres, pierres...) infranchissables et
     indestructibles ;
--   des caisses destructibles et déplaçables;
+-   des caisses destructibles et déplaçables; 
 -   des portes, ouvertes ou fermées, permettant d’évoluer entre les
     mondes ;
 -   des clefs pour débloquer les portes fermées ;
@@ -26,53 +29,55 @@ Chaque monde est représenté par une carte (rectangulaire) composée de cellule
 ## Prise en main
 
 Nous vous fournissons une première ébauche du jeu, utilisant la bibliothère JavaFX. Le lancement du jeu
-fait apparaitre une [carte](img/bombeirb.png) minimaliste, chargée statiquement en mémoire, dans laquelle le joueur peut se déplacer dans toutes les directions quelque soit la nature des cellules.
+fait apparaitre une carte minimaliste, chargée statiquement en mémoire, dans laquelle le joueur peut se déplacer dans toutes les directions quelque soit la nature des cellules. Le code utilise `gradle` comme moteur de production. Il suffit de lancer la commande suivante pour compiler et exécuter le jeu. Toutes les dépendances seront automatiquement téléchargées et installées. Le jeu nécessite une version de Java au moins égale à 11.
+
+    $ ./gradlew run
+
 
 Travail à fournir
 =================
 
 
-## Gestion des déplacements
 
-Les mouvements du joueur sont limités par le cadre de la carte, les éléments de décors et les caisses. Les caisses doivent pouvoir être déplacées par le joueur si rien ne gêne dans le sens de la poussée. Le joueur ne peut déplacer qu'une seule caisse à la fois. Si un bonus se trouve dans la direction déplacement d’une caisse, la caisse reste bloquée. Le joueur ne peux pas déplacer deux caisses à la fois. Le joueur peut marcher sur une case où se trouve un bonnus, une clé, ou un autre personnage. 
+## Premiers pas
+
+Ajouter l'affichage de tous les éléments (caisses, bonus, clé ...) ainsi que les monstres. Pour le moment, les monstres ne savent pas marcher, ils ne bougent pas. Modifier le code pour que les mouvements du joueur soient limités par le cadre de la carte, les éléments de décors et les caisses. 
+Le joueur peut marcher sur une case où se trouve un bonnus, une clé, ou un autre personnage. Faire en sorte que le joueur perde une vie lorsqu'il se trouve sur la même case qu'un monstre.
+
+## Gestion du panneau d’informations
+
+Le panneau d’information doit afficher le nombre de vies, le nombre de bombes et leur portée, le nombre de clés dans l’inventaire et le numéro de niveau courant.
 
 ## Gestion des mondes
 
-Les cartes sont décrites dans des fichiers dans le dossier `world`. Nous définissons les conventions
-suivantes :
+Le dossier de resources `sample` contient les cartes correspondant à trois niveaux. La configuration du jeux est fournit dans le fichier de propriété `config.properties`. Nous définissons les conventions suivantes :
 
 -   Les cartes sont stockées sous forme de fichiers texte afin de
     pouvoir les créer et les modifier avec un simple éditeur de texte ;
--   Le nom de fichier d’une carte est de la forme `mapN.txt` ou `N` est le
-    numéro du niveau;
+-   Le nom de fichier d’une carte est de la forme `<prefix>N.txt` ou `N` est le
+    numéro du niveau et `<prefix>` est la valeur du champ `prefix` dans le fichier de configuration;
 -   La case en haut à gauche de la carte correspond aux coordonnées
     `(0,0)` ;
 -   Chaque ligne correspond à une ligne de cellule sur la carte; 
 -   Chaque cellule de la carte est définie en respectant le codage
-définit dans le fichier `MapEntity.java`.
+définit dans le fichier `WorldEntity.java`.
 
-
-## Chargement des cartes
-
-Modifiez la classe `Game` pour que le monde du jeu soit chargé depuis les fichiers du dossier `world`.
-
+Modifiez le code dans le package classe `game` pour que le monde du jeu soit chargé depuis les fichiers du dossier `world`.
 
 ## Gestion des portes
 
-
 Lorsque le joueur arrive sur la case d’une porte ouverte, il passe
 automatiquement au niveau correspondant à cette porte (niveau supérieur
-ou inférieur). Seul le niveau *0* n'a qu'une seule porte (on ne peut pas passer au niveau inférieur). Il se retrouve automatiquement sur la porte du niveau
-correspondant. Si la porte est fermée, le joueur doit utiliser une des
+ou inférieur). Il se retrouve automatiquement sur la porte du niveau
+correspondant. Seul le niveau *0* n'a qu'une seule porte (on ne peut pas passer au niveau inférieur).  Si la porte est fermée, le joueur doit utiliser une des
 clefs de son inventaire. Pour ce faire, il doit appuyer sur la touche `[ENTER]` lorsqu'il est à côté de la porte à ouvrir et qu'il regarde la porte. Une fois utilisée, la clé disparait de
 l’inventaire. Chaque clef peut ouvrir indifféremment n’importe quelle
 porte fermée. Une fois qu'une porte est ouverte, elle le reste pour toute la partie du jeu.
 
-## Gestion du panneau d’informations
+## Déplacement des caisses
 
-Le panneau d’information doit afficher le nombre de vies, le nombre de
-bombes et leur portée, le nombre de clés dans l’inventaire et le numéro
-de niveau courant.
+ Les caisses doivent pouvoir être déplacées par le joueur si rien ne gêne dans le sens de la poussée. Le joueur ne peut déplacer qu'une seule caisse à la fois. Si un bonus se trouve dans la direction déplacement d’une caisse, la caisse reste bloquée. Le joueur ne peux pas déplacer deux caisses à la fois. 
+
 
 ## Gestion des bombes
 
@@ -94,30 +99,26 @@ Si le joueur pose une bombe et change ensuite de niveau en franchissant une port
 
 ## Gestion des bonus et malus
 
-Les bonus et malus peuvent être sur la carte ou apparaitre lors de
-l’explosion d’une caisse. Il en existe 5 :
+Le joueur ramasse automatiquement un bonus lorsqu'il marche sur la case qui le contient. Les monstrent peuvent marcher sur les cases des bonus mais ne peuvnet pas les ramasser. Il existe 5 bonus différents :
 
--   **portée-** / **portée+** : ajoute/retire 1 unitée à la portée des bombes.
-    La portée ne peut pas être nulle. Le changement de portée ne
-    concerne que les bombes qui seront posées plus tard. Les bombes pour
-    lesquelles la mèche est déjà allumée conservent leur portée
-    initiale.
+Bonus | Effet
+--- | --- |
+![nb+](src/main/resources/images/bonus_bomb_nb_inc.png) | Augmente la capacité du sac de bombe de une unité. |
+![nb-](src/main/resources/images/bonus_bomb_nb_dec.png) | Diminue la capacité du sac de bombe de une unité. Le sac contient toujours au minimum une bombre |
+| ![range+](src/main/resources/images/bonus_bomb_range_inc.png) | Augmente la portée des bombes de une unité. La modification de portée n'affecte pas les bombes déjà posées. |
+| ![range-](src/main/resources/images/bonus_bomb_range_inc.png) | Diminue la portée des bombes de une unité. La portée minimale est de un. La modification de portée n'affecte pas les bombes déjà posées. |
+| ![live](src/main/resources/images/heart.png) | Ajoute une vie. |
 
--   **bomb-** / **bomb+** : ajoute/enlève une bombe à l’inventaire. Le
-    joueur dispose toujours d’au minimum 1 bombe.
-
--   **vie+** : ajoute une vie.
 
 ## Gestion des vies
 
-Le joueur dispose de 3 vies au démarrage du jeu. Il peut en perdre s’il
+Le nombre initiale de vie du joueur est définit dans le fichier de configuraiton. Il peut en perdre s’il
 se trouve sur une case à portée de l’explosion d’une bombe ou s'il croise un monstre. Si le joueur
 n’a plus de vie, la partie se termine. Le joueur bénéficie alors d’une temporisation d'une seconde pendant laquelle il est invulnérable.
 
 ## Gestion des monstres
 
-Les monstres peuvent être présents dès le chargement de la carte ou
-apparaitre à l’explosion d’une caisse. Leurs déplacements sont
+Les déplacements des monstres sont
 entièrement aléatoires. Une collision avec un monstre déclenche la perte
 d’une vie. Commencez par ajouter un seul monstre à la fois, puis augmenter le
 nombre de monstres. Les monstres ne peuvent pas ramasser les bonus qui se trouvent sur le
