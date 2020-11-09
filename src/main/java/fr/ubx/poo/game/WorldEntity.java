@@ -39,8 +39,12 @@ public enum WorldEntity {
 
     public static Optional<WorldEntity> fromCode(char code) {
         return Arrays.stream(values())
-                .filter(c -> c.getCode() == code)
+                .filter(e->e.acceptCode(code))
                 .findFirst();
+    }
+
+    private boolean acceptCode(char code) {
+        return this.code == code;
     }
 
     @Override
