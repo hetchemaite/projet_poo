@@ -17,6 +17,7 @@ public final class ImageFactory {
             // Direction { N, E, S, W }
             PLAYER_UP, PLAYER_RIGHT, PLAYER_DOWN, PLAYER_LEFT,
     };
+
     private final ImageResource[] digits = new ImageResource[] {
             DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3, DIGIT_4,
             DIGIT_5, DIGIT_6, DIGIT_7, DIGIT_8, DIGIT_9,
@@ -34,7 +35,6 @@ public final class ImageFactory {
         for (ImageResource img : ImageResource.values()) {
             images[img.ordinal()] = loadImage(img.getFileName());
         }
-
     }
 
     public Image get(ImageResource img) {
