@@ -2,12 +2,12 @@
  * Copyright (c) 2020. Laurent Réveillère
  */
 
-package fr.ubx.poo.vue.image;
+package fr.ubx.poo.view.image;
+
+import static fr.ubx.poo.view.image.ImageResource.*;
 
 import fr.ubx.poo.game.Direction;
 import javafx.scene.image.Image;
-
-import static fr.ubx.poo.vue.image.ImageResource.*;
 
 public final class ImageFactory {
     public static ImageFactory instance = new ImageFactory();

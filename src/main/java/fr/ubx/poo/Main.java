@@ -6,8 +6,8 @@ package fr.ubx.poo;
 
 import fr.ubx.poo.engine.GameEngine;
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.vue.image.ImageFactory;
-import fr.ubx.poo.vue.sprite.Sprite;
+import fr.ubx.poo.view.image.ImageFactory;
+import fr.ubx.poo.view.sprite.Sprite;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

@@ -15,7 +15,9 @@ Une princesse est détenue prisonnière par de méchants monstres verts. Votre m
 
 Chaque monde est représenté par une carte (rectangulaire) composée de cellules. Chaque cellule peut contenir :
 
--   le joueur, la princesse ou des monstres ;
+-   le joueur ;
+-   la princesse ;
+-   des monstres ;
 -   des éléments de décor (arbres, pierres...) infranchissables et
     indestructibles ;
 -   des caisses destructibles et déplaçables ; 
@@ -41,8 +43,10 @@ Travail à fournir
 
 ## Premiers pas
 
-Ajouter l'affichage de tous les éléments (caisses, bonus, clés...) ainsi que les monstres. Pour le moment, les monstres ne savent pas marcher, ils ne bougent pas. Modifier le code pour que les mouvements du joueur soient limités par le cadre de la carte, les éléments de décor et les caisses. 
+Ajouter l'affichage de tous les éléments (caisses, bonus, clés...) ainsi que les monstres et la princesse. Pour le moment, les monstres ne savent pas marcher, ils ne bougent pas. Modifier le code pour que les mouvements du joueur soient limités par le cadre de la carte, les éléments de décor et les caisses. 
 Le joueur peut marcher sur une case où se trouve un bonus, une clé, ou un autre personnage. Faire en sorte que le joueur perde une vie lorsqu'il se trouve sur la même case qu'un monstre.
+S’il atteint la princesse, la partie se termine par une victoire.
+Si ses points de vie tombent à 0, la partie se termine par une défaite.
 
 ## Gestion du panneau d’informations
 
@@ -69,7 +73,7 @@ Modifier le code dans le package classe `game` pour que le monde du jeu soit cha
 Lorsque le joueur arrive sur la case d’une porte ouverte, il passe
 automatiquement au niveau correspondant à cette porte (niveau supérieur
 ou inférieur). Il se retrouve automatiquement sur la porte du niveau
-correspondant. Seul le niveau *0* n'a qu'une seule porte (on ne peut pas passer au niveau inférieur).  Si la porte est fermée, le joueur doit utiliser une des
+correspondant. Seul le niveau *0* (on ne peut pas passer au niveau inférieur) et le dernier (on ne peut pas aller plus loin) n'ont qu'une seule porte.  Si la porte est fermée, le joueur doit utiliser une des
 clés de son inventaire. Pour ce faire, il doit appuyer sur la touche `[ENTER]` lorsqu'il est à côté de la porte à ouvrir et qu'il regarde la porte. Une fois utilisée, la clé disparaît de
 l’inventaire. Chaque clé peut ouvrir indifféremment n’importe quelle
 porte fermée. Une fois qu'une porte est ouverte, elle le reste pour toute la partie du jeu.

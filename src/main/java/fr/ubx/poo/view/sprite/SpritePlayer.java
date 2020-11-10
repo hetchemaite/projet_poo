@@ -2,10 +2,10 @@
  * Copyright (c) 2020. Laurent Réveillère
  */
 
-package fr.ubx.poo.vue.sprite;
+package fr.ubx.poo.view.sprite;
 
-import fr.ubx.poo.model.go.personage.Player;
-import fr.ubx.poo.vue.image.ImageFactory;
+import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.Pane;
 

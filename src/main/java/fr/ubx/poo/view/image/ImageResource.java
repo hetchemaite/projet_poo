@@ -1,4 +1,4 @@
-package fr.ubx.poo.vue.image;
+package fr.ubx.poo.view.image;
 
 import javafx.scene.image.Image;
 

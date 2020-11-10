@@ -5,13 +5,13 @@
 package fr.ubx.poo.game;
 
 
-import fr.ubx.poo.model.go.personage.Player;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import fr.ubx.poo.model.go.character.Player;
 
 public class Game {
 

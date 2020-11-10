@@ -1,4 +1,4 @@
-package fr.ubx.poo.vue.sprite;
+package fr.ubx.poo.view.sprite;
 
 import fr.ubx.poo.game.Position;
 import javafx.scene.image.Image;

@@ -4,8 +4,10 @@
 
 package fr.ubx.poo.engine;
 
+import static fr.ubx.poo.view.image.ImageResource.*;
+
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.vue.image.ImageFactory;
+import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -13,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import static fr.ubx.poo.vue.image.ImageResource.*;
 
 public class StatusBar {
     public static final int height = 55;
