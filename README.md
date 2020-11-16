@@ -110,7 +110,7 @@ Bonus | Effet
 ![nb+](src/main/resources/images/bonus_bomb_nb_inc.png) | Augmente la capacité du sac de bombe de une unité. |
 ![nb-](src/main/resources/images/bonus_bomb_nb_dec.png) | Diminue la capacité du sac de bombe de une unité. Le sac contient toujours au minimum une bombre |
 | ![range+](src/main/resources/images/bonus_bomb_range_inc.png) | Augmente la portée des bombes de une unité. La modification de portée n'affecte pas les bombes déjà posées. |
-| ![range-](src/main/resources/images/bonus_bomb_range_inc.png) | Diminue la portée des bombes de une unité. La portée minimale est de un. La modification de portée n'affecte pas les bombes déjà posées. |
+| ![range-](src/main/resources/images/bonus_bomb_range_dec.png) | Diminue la portée des bombes de une unité. La portée minimale est de un. La modification de portée n'affecte pas les bombes déjà posées. |
 | ![live](src/main/resources/images/heart.png) | Ajoute une vie. |
 
 
