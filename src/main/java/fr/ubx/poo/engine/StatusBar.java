@@ -36,7 +36,7 @@ public class StatusBar {
         this.game = game;
 
         level.getStyleClass().add("level");
-        level.getChildren().add(new ImageView(ImageFactory.instance.getDigit(gameLevel)));
+        level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(gameLevel)));
 
         ds.setRadius(5.0);
         ds.setOffsetX(3.0);
@@ -46,10 +46,10 @@ public class StatusBar {
 
         HBox status = new HBox();
         status.getStyleClass().add("status");
-        HBox live = statusGroup(ImageFactory.instance.get(HEART), this.liveValue);
-        HBox bombs = statusGroup(ImageFactory.instance.get(BANNER_BOMB), bombsValue);
-        HBox range = statusGroup(ImageFactory.instance.get(BANNER_RANGE), rangeValue);
-        HBox key = statusGroup(ImageFactory.instance.get(KEY), keyValue);
+        HBox live = statusGroup(ImageFactory.getInstance().get(HEART), this.liveValue);
+        HBox bombs = statusGroup(ImageFactory.getInstance().get(BANNER_BOMB), bombsValue);
+        HBox range = statusGroup(ImageFactory.getInstance().get(BANNER_RANGE), rangeValue);
+        HBox key = statusGroup(ImageFactory.getInstance().get(KEY), keyValue);
         status.setSpacing(40.0);
         status.getChildren().addAll(live, bombs, range, key);
 
@@ -63,7 +63,7 @@ public class StatusBar {
     private void updateLevel(int n) {
         if (n != gameLevel) {
             level.getChildren().clear();
-            level.getChildren().add(new ImageView(ImageFactory.instance.getDigit(n)));
+            level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(n)));
         }
     }
 

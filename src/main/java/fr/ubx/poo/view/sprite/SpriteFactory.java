@@ -18,7 +18,7 @@ import javafx.scene.layout.Pane;
 public final class SpriteFactory {
 
     public static Sprite createDecor(Pane layer, Position position, Decor decor) {
-        ImageFactory factory = ImageFactory.instance;
+        ImageFactory factory = ImageFactory.getInstance();
         if (decor instanceof Stone)
             return new SpriteDecor(layer, factory.get(STONE), position);
         if (decor instanceof Tree)
