@@ -32,6 +32,33 @@ public class World {
         }
         throw new PositionNotFoundException("Player");
     }
+    
+    public Position[] findMonsters(int i){
+    	Position[] MonstersPos= new Position[i];
+    	int j=0;
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == WorldEntity.Monster) {
+                    MonstersPos[j]=new Position(x,y);
+                    j++;
+                }
+            }
+        }
+        return MonstersPos;
+    }
+    
+    public int NbMonsters(){
+    	int i=0;
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == WorldEntity.Monster) {
+                    i++;
+                    System.out.println("Pouet\n");
+                }
+            }
+        }
+        return i;
+    }
 
     public Decor get(Position position) {
         return grid.get(position);

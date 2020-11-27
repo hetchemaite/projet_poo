@@ -11,12 +11,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Game {
 
     private final World world;
     private final Player player;
+    private Monster[] Monsters;
+    private int nbMonsters;
     private final String worldPath;
     public int initPlayerLives;
 
@@ -25,6 +28,12 @@ public class Game {
         this.worldPath = worldPath;
         loadConfig(worldPath);
         Position positionPlayer = null;
+        nbMonsters=world.NbMonsters();
+        Position[] MonstersPos=world.findMonsters(nbMonsters);
+        Monsters=new Monster[nbMonsters];
+        for(int i=0; i<nbMonsters; i++) {
+        	Monsters[i]=new Monster(this, MonstersPos[i]);
+        }
         try {
             positionPlayer = world.findPlayer();
             player = new Player(this, positionPlayer);
@@ -56,6 +65,11 @@ public class Game {
     public Player getPlayer() {
         return this.player;
     }
-
+    public Monster[] getMonsters() {
+        return this.Monsters;
+    }
+    public int getnbMonsters() {
+        return this.nbMonsters;
+    }
 
 }

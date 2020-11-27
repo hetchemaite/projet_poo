@@ -14,7 +14,6 @@ import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
-import fr.ubx.poo.model.decor.Monster;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -66,8 +65,6 @@ public class WorldBuilder {
             	return new DoorNextOpened();
             case DoorPrevOpened:
             	return new DoorPrevOpened();
-            case Monster:
-            	return new Monster();
             default:
                 return null;
         }
