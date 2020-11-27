@@ -21,7 +21,7 @@ public class Player extends GameObject implements Movable {
     Direction direction;
     private boolean moveRequested = false;
     private int lives = 1;
-    private int bombs = 0;
+    private int bombs = 1;
     private int keys = 0;
     private int rangebomb = 1;
     private boolean winner;
