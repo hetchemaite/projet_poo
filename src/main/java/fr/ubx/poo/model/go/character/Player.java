@@ -4,15 +4,20 @@
 
 package fr.ubx.poo.model.go.character;
 
+
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
+import fr.ubx.poo.model.decor.Box;
+import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Stone;
+import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
 public class Player extends GameObject implements Movable {
 
-    private final boolean alive = true;
+    private boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
     private int lives = 1;
@@ -41,7 +46,18 @@ public class Player extends GameObject implements Movable {
 
     @Override
     public boolean canMove(Direction direction) {
+    	Position nextPos = direction.nextPosition(getPosition());
+    	
+    	Decor d=game.getWorld().get(nextPos);
+    	if( !(nextPos.inside(game.getWorld().dimension)) ||d  instanceof Box || d instanceof Stone || d instanceof Tree) {
+    		return false;
+    	}
+    	/*if(d  instanceof Monster) {
+    		this.lives-=1;
+    	}*/
+    	//grid.get(position);
         return true;
+        
     }
 
     public void doMove(Direction direction) {
