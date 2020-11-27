@@ -49,8 +49,13 @@ public class Player extends GameObject implements Movable {
     	Position nextPos = direction.nextPosition(getPosition());
     	
     	Decor d=game.getWorld().get(nextPos);
-    	if( !(nextPos.inside(game.getWorld().dimension)) ||d  instanceof Box || d instanceof Stone || d instanceof Tree) {
+    	if( !(nextPos.inside(game.getWorld().dimension)) || d instanceof Stone || d instanceof Tree) {
     		return false;
+    	}else {
+    		if(d instanceof Box) {
+    			Position nextpos2= direction.nextPosition(nextPos);
+    			return ((nextpos2.inside(game.getWorld().dimension)) && game.getWorld().isEmpty(nextpos2));
+    		}
     	}
     	/*if(d  instanceof Monster) {
     		this.lives-=1;
@@ -63,6 +68,14 @@ public class Player extends GameObject implements Movable {
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
+        Decor d=game.getWorld().get(nextPos);
+        if(d instanceof Box) {
+        	game.getWorld().clear(nextPos);
+        	game.getWorld().set(direction.nextPosition(nextPos), new Box());
+        	game.getWorld().setWorldchanged(true);
+        }
+        if(nextPos==get)
+        
     }
 
     public void update(long now) {

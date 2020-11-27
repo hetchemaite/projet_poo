@@ -143,6 +143,12 @@ public final class GameEngine {
     }
 
     private void render() {
+    	if(this.game.getWorld().isWorldchanged()) {
+    		sprites.forEach(Sprite::remove);
+    		sprites.clear();
+    		game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+    		game.getWorld().setWorldchanged(false);
+    	}
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
