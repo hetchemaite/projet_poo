@@ -105,6 +105,7 @@ public class Player extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
         Decor d=game.getWorld().get(nextPos);
+        
         if(d instanceof Box) {
         	game.getWorld().clear(nextPos);
         	game.getWorld().set(direction.nextPosition(nextPos), new Box());
@@ -146,6 +147,18 @@ public class Player extends GameObject implements Movable {
         }
         if(d instanceof Princess) {
         	this.winner=true;
+        }
+        if(d instanceof DoorNextClosed) {
+        	if (this.keys>0) {
+        		game.getWorld().clear(nextPos);            	
+            	game.getWorld().set(nextPos, new DoorNextOpened());
+            	game.getWorld().setWorldchanged(true);
+            	this.keys--;            	
+            	game.setLevel(game.getLevel()+1);            	
+        	}  
+        }
+        if(d instanceof DoorPrevOpened) {
+        	game.setLevel(game.getLevel()-1);
         }
         
         Monster[]  monster = game.getMonsters();

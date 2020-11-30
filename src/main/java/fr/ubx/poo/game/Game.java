@@ -25,14 +25,13 @@ public class Game {
     private final String worldPath;
     public int initPlayerLives;
     private String prefix;
+    private int level=2;
 
     public Game(String worldPath) {
-        //loadWorld(worldPath);
-    	
-        //world = new WorldStatic();
+        
         this.worldPath = worldPath;
         loadConfig(worldPath);
-        world = new World(loadWorld(worldPath,1));
+        world = new World(loadWorld(worldPath));
 
         Position positionPlayer = null;
         nbMonsters=world.NbMonsters();
@@ -66,7 +65,7 @@ public class Game {
         }
     }
 
-    private WorldEntity [][] loadWorld(String path, int level) {
+    private WorldEntity [][] loadWorld(String path) {
     	WorldEntity[][] newworld = null;	    
     	try {
     		// load the level file
@@ -110,8 +109,7 @@ public class Game {
         	System.err.println(ex);
         	System.err.println("Error loading world");
         }
-		return newworld;
-    	
+		return newworld;   	
     	
     }
     
@@ -130,5 +128,13 @@ public class Game {
     public int getnbMonsters() {
         return this.nbMonsters;
     }
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
 
 }
