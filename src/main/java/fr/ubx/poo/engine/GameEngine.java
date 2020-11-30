@@ -150,7 +150,7 @@ public final class GameEngine {
         }
         if (player.isWinner()) {
             gameLoop.stop();
-            showMessage("GagnÃ©", Color.BLUE);
+            showMessage("Gagné", Color.BLUE);
         }
     }
 

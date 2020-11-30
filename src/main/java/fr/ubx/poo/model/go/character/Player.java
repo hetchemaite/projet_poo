@@ -13,6 +13,7 @@ import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.GameObject;
+import javafx.scene.paint.Color;
 import fr.ubx.poo.game.Game;
 
 public class Player extends GameObject implements Movable {
@@ -97,12 +98,7 @@ public class Player extends GameObject implements Movable {
     			return ((nextpos2.inside(game.getWorld().dimension)) && game.getWorld().isEmpty(nextpos2));
     		}
     	}
-    	/*if(d  instanceof Monster) {
-    		this.lives-=1;
-    	}*/
-    	//grid.get(position);
-        return true;
-        
+        return true;        
     }
 
     public void doMove(Direction direction) {
@@ -148,6 +144,21 @@ public class Player extends GameObject implements Movable {
         	game.getWorld().setWorldchanged(true);
         	setRangebomb(rangebomb+1);
         }
+        if(d instanceof Princess) {
+        	this.winner=true;
+        }
+        
+        Monster[]  monster = game.getMonsters();
+        int nbMonster = game.getnbMonsters();
+        for (int i=0; i<nbMonster; i++) {
+    		if (monster[i].getPosition().equals(this.getPosition()) ) {    			
+        		this.lives--;
+        		if (lives==0) {
+        			this.alive=false;
+        		}        		
+        	}
+        }
+        
     }
 
     public void update(long now) {
