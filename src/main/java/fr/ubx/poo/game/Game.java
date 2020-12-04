@@ -25,7 +25,7 @@ public class Game {
     private final String worldPath;
     public int initPlayerLives;
     private String prefix;
-    private int level=2;
+    private int level=3;
 
     public Game(String worldPath) {
         
