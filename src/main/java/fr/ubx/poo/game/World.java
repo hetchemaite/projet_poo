@@ -5,20 +5,29 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.view.sprite.Sprite;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class World {
     private final Map<Position, Decor> grid;
-    private final WorldEntity[][] raw;
+    //private final List<WorldEntity[][]> raw = new ArrayList<>();
+    //private final List<Dimension> dimension = new ArrayList<>();
+    //private final List<Map<Position, Decor>> grid = new ArrayList<>();
+    private final WorldEntity[][] raw ;
     public final Dimension dimension;
     private boolean worldchanged;
+    
 
     public World(WorldEntity[][] raw) {
         this.raw = raw;
         dimension = new Dimension(raw.length, raw[0].length);
+        //raw.forEach(r->dimension.add ( new Dimension(r.length, r[0].length)));
+        //raw.forEach(r->grid.add ( new WorldBuilder.built(r.length, r[0].length)));        
         grid = WorldBuilder.build(raw, dimension);
     }
 
