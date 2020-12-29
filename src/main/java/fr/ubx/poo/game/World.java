@@ -5,6 +5,7 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.view.sprite.Sprite;
 
 import java.util.ArrayList;
@@ -14,27 +15,40 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class World {
-    private final Map<Position, Decor> grid;
-    //private final List<WorldEntity[][]> raw = new ArrayList<>();
-    //private final List<Dimension> dimension = new ArrayList<>();
-    //private final List<Map<Position, Decor>> grid = new ArrayList<>();
-    private final WorldEntity[][] raw ;
-    public final Dimension dimension;
+    //private final Map<Position, Decor> grid;
+    //
+    private final List<WorldEntity[][]> raw = new ArrayList<>();
+    public final List<Dimension> dimension = new ArrayList<>();
+    private final List<Map<Position, Decor>> grid = new ArrayList<>();
+    //
+    //private final WorldEntity[][] raw ;
+    //public final Dimension dimension;
     private boolean worldchanged;
+    private int current_lvl=0;
     
-
-    public World(WorldEntity[][] raw) {
-        this.raw = raw;
-        dimension = new Dimension(raw.length, raw[0].length);
+    //world(list<worldentity> listEntity,int nblvl)
+    
+    public World(List<WorldEntity[][]> raw, int nblvl) {
+        //dimension = new Dimension(raw.length, raw[0].length);
+        for(WorldEntity[][] r : raw){
+        	this.raw.add(r);
+        	Dimension dim=new Dimension(r.length, r[0].length);
+        	dimension.add (new Dimension(r.length, r[0].length));
+        	grid.add (  WorldBuilder.build(r, dim));
+         }
         //raw.forEach(r->dimension.add ( new Dimension(r.length, r[0].length)));
-        //raw.forEach(r->grid.add ( new WorldBuilder.built(r.length, r[0].length)));        
-        grid = WorldBuilder.build(raw, dimension);
+        //raw.forEach(r->grid.add (  WorldBuilder.build(r, )));        
+        //grid = WorldBuilder.build(raw, dimension);
     }
 
-    public Position findPlayer() throws PositionNotFoundException {
-        for (int x = 0; x < dimension.width; x++) {
-            for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Player || raw[y][x] == WorldEntity.DoorPrevOpened) {
+    public World(WorldEntity[][] mapentities) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Position findPlayer() throws PositionNotFoundException {
+    	for (int x = 0; x < dimension.get(current_lvl).width; x++) {
+            for (int y = 0; y < dimension.get(current_lvl).height; y++) {
+                if (raw.get(current_lvl)[y][x] == WorldEntity.Player || raw.get(current_lvl)[y][x] == WorldEntity.DoorPrevOpened) {
                     return new Position(x, y);
                 }
             }
@@ -42,7 +56,7 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
     
-    public Position[] findMonsters(int i){
+    /*public Position[] findMonsters(int i){
     	Position[] MonstersPos= new Position[i];
     	int j=0;
         for (int x = 0; x < dimension.width; x++) {
@@ -54,9 +68,24 @@ public class World {
             }
         }
         return MonstersPos;
-    }
+    }*/
     
-    public int NbMonsters(){
+    //version liste
+	public List<Monster> findMonsters(Game game) {
+		List<Monster> Monsters = new ArrayList<>();
+        for (int x = 0; x < dimension.get(current_lvl).width; x++) {
+            for (int y = 0; y < dimension.get(current_lvl).height; y++) {
+                if (raw.get(current_lvl)[y][x] == WorldEntity.Monster) {
+                    //;
+                    Monsters.add(new Monster(game, new Position(x,y)));
+                }
+            }
+        }
+        return Monsters;
+	}
+	
+    
+    /*public int NbMonsters(){
     	int i=0;
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
@@ -67,26 +96,26 @@ public class World {
             }
         }
         return i;
-    }
+    }*/
 
     public Decor get(Position position) {
-        return grid.get(position);
+        return grid.get(current_lvl).get(position);
     }
 
     public void set(Position position, Decor decor) {
-        grid.put(position, decor);
+        grid.get(current_lvl).put(position, decor);
     }
 
     public void clear(Position position) {
-        grid.remove(position);
+        grid.get(current_lvl).remove(position);
     }
 
     public void forEach(BiConsumer<Position, Decor> fn) {
-        grid.forEach(fn);
+        grid.get(current_lvl).forEach(fn);
     }
 
     public Collection<Decor> values() {
-        return grid.values();
+        return grid.get(current_lvl).values();
     }
 
     public boolean isInside(Position position) {
@@ -94,7 +123,7 @@ public class World {
     }
 
     public boolean isEmpty(Position position) {
-        return grid.get(position) == null;
+        return grid.get(current_lvl).get(position) == null;
     }
 
 	public boolean isWorldchanged() {
@@ -104,4 +133,14 @@ public class World {
 	public void setWorldchanged(boolean worldchanged) {
 		this.worldchanged = worldchanged;
 	}
+
+	public int getCurrent_lvl() {
+		return current_lvl;
+	}
+
+	public void setCurrent_lvl(int current_lvl) {
+		this.current_lvl = current_lvl;
+	}
+
+
 }

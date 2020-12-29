@@ -11,7 +11,11 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
@@ -20,26 +24,34 @@ public class Game {
 
     private final World world;
     private final Player player;
-    private Monster[] Monsters;
-    private int nbMonsters;
+    //private Monster[] Monsters;
+    private List<Monster> Monsters = new ArrayList<>();
+    //private int nbMonsters;
     private final String worldPath;
     public int initPlayerLives;
     private String prefix;
-    private int level=3;
-
-    public Game(String worldPath) {
-        
+    private int levels;
+    private int Level=0;
+    private boolean levelchanged=false;
+    
+    public Game(String worldPath) {    
         this.worldPath = worldPath;
         loadConfig(worldPath);
-        world = new World(loadWorld(worldPath));
+        world = new World(loadWorld(worldPath), levels);
 
         Position positionPlayer = null;
-        nbMonsters=world.NbMonsters();
+        /*nbMonsters=world.NbMonsters();
         Position[] MonstersPos=world.findMonsters(nbMonsters);
+
+        
         Monsters=new Monster[nbMonsters];
         for(int i=0; i<nbMonsters; i++) {
         	Monsters[i]=new Monster(this, MonstersPos[i]);
-        }
+        }*/
+        
+        //version liste
+        Monsters=world.findMonsters(this);
+        //Monsters2.forEach(m -> System.out.println(m.getPosition()));
         try {
             positionPlayer = world.findPlayer();
             player = new Player(this, positionPlayer);
@@ -59,14 +71,24 @@ public class Game {
             // load the configuration file
             prop.load(input);
         	prefix = prop.getProperty("prefix");
+        	levels = Integer.parseInt(prop.getProperty("levels"));
             initPlayerLives = Integer.parseInt(prop.getProperty("lives", "3"));
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }
     }
 
-    private WorldEntity [][] loadWorld(String path) {
-    	WorldEntity[][] newworld = null;	    
+    private List<WorldEntity [][]> loadWorld(String path){
+    	List<WorldEntity [][]> World=new ArrayList<>();
+    	for(int i=1; i<levels+1; i++) {
+    		World.add(loadLevel(path, i));
+    	}
+    	return World;
+    }
+    
+    
+    private WorldEntity [][] loadLevel(String path, int level) {
+    	WorldEntity[][] newLevel = null;	    
     	try {
     		// load the level file
     		BufferedReader fd = new BufferedReader(new FileReader(path+"/" +prefix+level+".txt")); 
@@ -78,28 +100,21 @@ public class Game {
     	    line = fd.readLine();
     	    fd.reset();
     	    int x = line.length();
-    	    newworld = new WorldEntity[y][x];
+    	    newLevel = new WorldEntity[y][x];
     	    
     		while ((line = fd.readLine()) != null) {
     			for (int i=0; i<x; i++) {    				
-    				if (line.charAt(i)=='T') newworld[j][i]=WorldEntity.Tree;
-    				if (line.charAt(i)=='_') newworld[j][i]=WorldEntity.Empty;
-    				if (line.charAt(i)=='S') newworld[j][i]=WorldEntity.Stone;
-    				if (line.charAt(i)=='+') newworld[j][i]=WorldEntity.BombNumberInc;
-    				if (line.charAt(i)=='-') newworld[j][i]=WorldEntity.BombNumberDec;
-    				if (line.charAt(i)=='>') newworld[j][i]=WorldEntity.BombRangeInc;
-    				if (line.charAt(i)=='<') newworld[j][i]=WorldEntity.BombRangeDec;
-    				if (line.charAt(i)=='B') newworld[j][i]=WorldEntity.Box;
-    				if (line.charAt(i)=='M') newworld[j][i]=WorldEntity.Monster;
-    				if (line.charAt(i)=='n') newworld[j][i]=WorldEntity.DoorNextClosed;
-    				if (line.charAt(i)=='N') newworld[j][i]=WorldEntity.DoorNextOpened;
-    				if (line.charAt(i)=='V') newworld[j][i]=WorldEntity.DoorPrevOpened;
-    				if (line.charAt(i)=='P') newworld[j][i]=WorldEntity.Player;
-    				if (line.charAt(i)=='W') newworld[j][i]=WorldEntity.Princess;
-    				if (line.charAt(i)=='K') newworld[j][i]=WorldEntity.Key;
-    				if (line.charAt(i)=='H') newworld[j][i]=WorldEntity.Heart;
+    				Optional<WorldEntity> e= WorldEntity.fromCode(line.charAt(i));
+    				if(e.isPresent()) {
+    					newLevel[j][i]=e.get();
+    				}else {
+    					//retourner erreur
+    					//throw new IOExecption("soldat inconnue dans le bataillon");
+    				}
     				
-    		    	System.out.print(newworld[j][i]);
+    				
+    				
+    		    	System.out.print(newLevel[j][i]);
     			}
     			System.out.println();
     			j++;
@@ -107,9 +122,9 @@ public class Game {
     		fd.close();
         } catch (IOException ex) {
         	System.err.println(ex);
-        	System.err.println("Error loading world");
+        	System.err.println("Error loading level");
         }
-		return newworld;   	
+		return newLevel;   	
     	
     }
     
@@ -122,19 +137,33 @@ public class Game {
     public Player getPlayer() {
         return this.player;
     }
-    public Monster[] getMonsters() {
+    /*public Monster[] getMonsters() {
+        return this.Monsters;
+    }*/
+    //
+    public List<Monster> getMonsters() {
         return this.Monsters;
     }
-    public int getnbMonsters() {
+    /*public int getnbMonsters() {
         return this.nbMonsters;
-    }
+    }*/
 
 	public int getLevel() {
-		return level;
+		return Level;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setLevel(int i) {
+		Level=i;
+		this.getWorld().setCurrent_lvl(i);
+		
 	}
+	
+    public void setlevelchanged(boolean bool) {
+    	levelchanged=bool;
+    }
+    public boolean getlevelchanged() {
+    	return levelchanged;
+    }
+
 
 }

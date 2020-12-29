@@ -5,6 +5,8 @@
 package fr.ubx.poo.model.go.character;
 
 
+import java.util.List;
+
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
@@ -13,7 +15,6 @@ import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.GameObject;
-import javafx.scene.paint.Color;
 import fr.ubx.poo.game.Game;
 
 public class Player extends GameObject implements Movable {
@@ -90,12 +91,12 @@ public class Player extends GameObject implements Movable {
     	Position nextPos = direction.nextPosition(getPosition());
     	
     	Decor d=game.getWorld().get(nextPos);
-    	if( !(nextPos.inside(game.getWorld().dimension)) || d instanceof Stone || d instanceof Tree) {
+    	if( !(nextPos.inside(game.getWorld().dimension.get(game.getLevel()))) || d instanceof Stone || d instanceof Tree) {
     		return false;
     	}else {
     		if(d instanceof Box) {
     			Position nextpos2= direction.nextPosition(nextPos);
-    			return ((nextpos2.inside(game.getWorld().dimension)) && game.getWorld().isEmpty(nextpos2));
+    			return ((nextpos2.inside(game.getWorld().dimension.get(game.getLevel()))) && game.getWorld().isEmpty(nextpos2));
     		}
     	}
         return true;        
@@ -153,16 +154,24 @@ public class Player extends GameObject implements Movable {
         		game.getWorld().clear(nextPos);            	
             	game.getWorld().set(nextPos, new DoorNextOpened());
             	game.getWorld().setWorldchanged(true);
-            	this.keys--;            	
-            	game.setLevel(game.getLevel()+1);            	
+            	this.keys--;
+            	game.setlevelchanged(true);
+            	game.setLevel(game.getLevel()+1);
         	}  
+        }
+        if(d instanceof DoorNextOpened) {
+        	game.setlevelchanged(true);
+        	game.setLevel(game.getLevel()+1);
         }
         if(d instanceof DoorPrevOpened) {
         	game.setLevel(game.getLevel()-1);
         }
         
-        Monster[]  monster = game.getMonsters();
-        int nbMonster = game.getnbMonsters();
+        
+        List<Monster> monsters=game.getMonsters();
+        monsters.forEach(m -> MoveOnMonster(m.getPosition()));
+        //Monster[]  monster = game.getMonsters();
+        /*int nbMonster = game.getnbMonsters();
         for (int i=0; i<nbMonster; i++) {
     		if (monster[i].getPosition().equals(this.getPosition()) ) {    			
         		this.lives--;
@@ -170,8 +179,16 @@ public class Player extends GameObject implements Movable {
         			this.alive=false;
         		}        		
         	}
-        }
+        }*/
         
+    }
+    
+    public void MoveOnMonster(Position pos) {
+    	if(pos.equals(this.getPosition())) {
+    		this.lives--;
+    		if(lives==0)
+    			this.alive=false;
+        }
     }
 
     public void update(long now) {

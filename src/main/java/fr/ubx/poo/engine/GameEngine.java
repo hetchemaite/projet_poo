@@ -24,7 +24,10 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//
+import javafx.animation.AnimationTimer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public final class GameEngine {
 
@@ -38,29 +41,32 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private Monster[] Monsters;
-    private int nbMonsters;
+    /*private Monster[] Monsters;
+    private int nbMonsters;*/
+    private List<Monster> Monsters = new ArrayList<>();
     private final List<Sprite> spritesMonsters = new ArrayList<>();
-    //private Sprite[] spriteMonsters;
+    
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
+        //this.Monsters=game.getMonsters();
         this.Monsters=game.getMonsters();
-        this.nbMonsters=game.getnbMonsters();
-        System.out.println(nbMonsters);
+        //this.nbMonsters=game.getnbMonsters();
+        //System.out.println(nbMonsters);
         initialize(stage, game);
         buildAndSetGameLoop();
     }
 
     private void initialize(Stage stage, Game game) {
+    	System.out.println("YOOOOOOOO");
         this.stage = stage;
         Group root = new Group();
         layer = new Pane();
 
-        int height = game.getWorld().dimension.height;
-        int width = game.getWorld().dimension.width;
+        int height = game.getWorld().dimension.get(game.getLevel()).height;
+        int width = game.getWorld().dimension.get(game.getLevel()).width;
         int sceneWidth = width * Sprite.size;
         int sceneHeight = height * Sprite.size;
         Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
@@ -77,10 +83,9 @@ public final class GameEngine {
         // Create decor sprites
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
-        for(int i=0; i<nbMonsters; i++) {
-        	spritesMonsters.add(SpriteFactory.createMonster(layer, Monsters[i]));
-        }
-        
+        Monsters.forEach(m -> spritesMonsters.add(SpriteFactory.createMonster(layer, m)));
+        //moveAutomatically();
+        game.setlevelchanged(false);
 
     }
 
@@ -140,9 +145,12 @@ public final class GameEngine {
         }.start();
     }
 
-
     private void update(long now) {
+    	if(game.getlevelchanged()) {
+    		initialize(stage,game);
+    	}
         player.update(now);
+        Monsters.forEach(m -> m.update(now));
 
         if (player.isAlive() == false) {
             gameLoop.stop();
@@ -171,4 +179,14 @@ public final class GameEngine {
     public void start() {
         gameLoop.start();
     }
+
+    
+    /*private void moveAutomatically(){
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+            	
+            }
+        }, 2,1500);
+    }*/
 }
