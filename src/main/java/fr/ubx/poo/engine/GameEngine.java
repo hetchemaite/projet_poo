@@ -6,10 +6,12 @@ package fr.ubx.poo.engine;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
+import fr.ubx.poo.view.sprite.SpriteBomb;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.PositionNotFoundException;
 import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.character.Monster;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -44,6 +46,8 @@ public final class GameEngine {
     private Sprite spritePlayer;
     private List<Monster> Monsters = new ArrayList<>();
     private final List<Sprite> spritesMonsters = new ArrayList<>();
+    private List<Bomb> Bombs= new ArrayList<>();
+    private List<Sprite> spritesBombs = new ArrayList<>();
     
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
@@ -129,6 +133,14 @@ public final class GameEngine {
         if( input.isKey()) {
         	player.OpenDoor();
         }
+        if(input.isBomb()) {
+        	Bomb b=player.putBomb(now);
+        	if(b!=null) {
+        		Bombs.add(b);
+            	spritesBombs.add(SpriteFactory.createBomb(layer, b));
+        	}
+        	
+        }
         input.clear();
     }
 
@@ -157,6 +169,11 @@ public final class GameEngine {
     		game.setLevelChanged(false);
     		initialize(stage,game);
     	}
+    	//for Eeach if state<=0 then timer.cancel et boom
+    	Bombs.forEach(b -> System.out.println(b.getState()));
+    	Bombs.forEach(b -> b.update());
+    	Bombs.removeIf(b -> b.getState()<=0); 
+    	
         player.update(now);
         Monsters.forEach(m -> m.update(now));
 
@@ -179,6 +196,8 @@ public final class GameEngine {
     	}
         sprites.forEach(Sprite::render);
         spritesMonsters.forEach(Sprite::render);
+        spritesBombs.forEach(Sprite::render);
+        
         // last rendering to have player in the foreground
         spritePlayer.render();
        

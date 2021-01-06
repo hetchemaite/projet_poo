@@ -14,6 +14,7 @@ import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
@@ -196,6 +197,16 @@ public class Player extends GameObject implements Movable {
     		if(lives==0)
     			this.alive=false;
         }
+    }
+    
+    public Bomb putBomb(long now) {
+    	if(getBombs()>0) {
+    		setBombs(getBombs()-1);
+    		return new Bomb(game,game.getPlayer().getPosition(), now);
+    	}else {
+    		return null;
+    	}
+    		
     }
 
     public void update(long now) {
