@@ -15,30 +15,23 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class World {
-    //private final Map<Position, Decor> grid;
-    //
+	
     private final List<WorldEntity[][]> raw = new ArrayList<>();
     public final List<Dimension> dimension = new ArrayList<>();
     private final List<Map<Position, Decor>> grid = new ArrayList<>();
-    //
-    //private final WorldEntity[][] raw ;
-    //public final Dimension dimension;
     private boolean worldchanged;
     private int current_lvl=0;
+    private boolean PrevLevel=false;
+    private boolean NextLevel=false;
     
-    //world(list<worldentity> listEntity,int nblvl)
     
     public World(List<WorldEntity[][]> raw, int nblvl) {
-        //dimension = new Dimension(raw.length, raw[0].length);
         for(WorldEntity[][] r : raw){
         	this.raw.add(r);
         	Dimension dim=new Dimension(r.length, r[0].length);
         	dimension.add (new Dimension(r.length, r[0].length));
         	grid.add (  WorldBuilder.build(r, dim));
          }
-        //raw.forEach(r->dimension.add ( new Dimension(r.length, r[0].length)));
-        //raw.forEach(r->grid.add (  WorldBuilder.build(r, )));        
-        //grid = WorldBuilder.build(raw, dimension);
     }
 
     public World(WorldEntity[][] mapentities) {
@@ -46,35 +39,41 @@ public class World {
 	}
 
 	public Position findPlayer() throws PositionNotFoundException {
-    	for (int x = 0; x < dimension.get(current_lvl).width; x++) {
-            for (int y = 0; y < dimension.get(current_lvl).height; y++) {
-                if (raw.get(current_lvl)[y][x] == WorldEntity.Player || raw.get(current_lvl)[y][x] == WorldEntity.DoorPrevOpened) {
-                    return new Position(x, y);
-                }
-            }
-        }
-        throw new PositionNotFoundException("Player");
+    	Position pos=null;
+		if(isPrevLevel()) {
+			pos=PositionPlayer(WorldEntity.DoorNextClosed);
+		}else {
+			if(isNextLevel()) {
+				pos=PositionPlayer(WorldEntity.DoorPrevOpened);
+			}else {
+				pos=PositionPlayer(WorldEntity.Player);
+			}
+		}
+		setPrevLevel(false);
+		setNextLevel(false);
+		if(pos==null)
+			throw new PositionNotFoundException("Player");
+		return pos;
     }
     
-    /*public Position[] findMonsters(int i){
-    	Position[] MonstersPos= new Position[i];
-    	int j=0;
-        for (int x = 0; x < dimension.width; x++) {
-            for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Monster) {
-                    MonstersPos[j]=new Position(x,y);
-                    j++;
-                }
+	public Position PositionPlayer(WorldEntity e) {
+		for (int x = 0; x < getDimension().width; x++) {
+            for (int y = 0; y < getDimension().height; y++) {
+            		if(raw.get(current_lvl)[y][x] == e ) {
+            			System.out.println(x+y);
+            			return new Position(x,y);
+            	}
             }
         }
-        return MonstersPos;
-    }*/
+		return null;
+	}
+	
     
     //version liste
 	public List<Monster> findMonsters(Game game) {
 		List<Monster> Monsters = new ArrayList<>();
-        for (int x = 0; x < dimension.get(current_lvl).width; x++) {
-            for (int y = 0; y < dimension.get(current_lvl).height; y++) {
+        for (int x = 0; x <  getDimension().width; x++) {
+            for (int y = 0; y <  getDimension().height; y++) {
                 if (raw.get(current_lvl)[y][x] == WorldEntity.Monster) {
                     //;
                     Monsters.add(new Monster(game, new Position(x,y)));
@@ -85,18 +84,6 @@ public class World {
 	}
 	
     
-    /*public int NbMonsters(){
-    	int i=0;
-        for (int x = 0; x < dimension.width; x++) {
-            for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Monster) {
-                    i++;
-                    System.out.println("Pouet\n");
-                }
-            }
-        }
-        return i;
-    }*/
 
     public Decor get(Position position) {
         return grid.get(current_lvl).get(position);
@@ -142,5 +129,24 @@ public class World {
 		this.current_lvl = current_lvl;
 	}
 
+	public Dimension getDimension() {
+		return dimension.get(getCurrent_lvl());
+	}
+	
+	public void setPrevLevel(boolean bool) {
+		this.PrevLevel=bool;
+	}
+	
+	public boolean isPrevLevel() {
+		return this.PrevLevel;
+	}
+	
+	public void setNextLevel(boolean bool) {
+		this.NextLevel=bool;
+	}
+	public boolean isNextLevel() {
+		return this.NextLevel;
+	}
 
+	
 }

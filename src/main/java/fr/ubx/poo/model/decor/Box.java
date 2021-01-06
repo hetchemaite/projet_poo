@@ -5,4 +5,8 @@ public class Box extends Decor {
     public String toString() {
         return "Box";
     }
+    
+    /*public void MoveOnDecor(Decor a) {
+		
+	}*/
 }

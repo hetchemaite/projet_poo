@@ -91,97 +91,104 @@ public class Player extends GameObject implements Movable {
     	Position nextPos = direction.nextPosition(getPosition());
     	
     	Decor d=game.getWorld().get(nextPos);
-    	if( !(nextPos.inside(game.getWorld().dimension.get(game.getLevel()))) || d instanceof Stone || d instanceof Tree) {
+    	if(!nextPos.inside(game.getWorld().getDimension()))
     		return false;
-    	}else {
-    		if(d instanceof Box) {
-    			Position nextpos2= direction.nextPosition(nextPos);
-    			return ((nextpos2.inside(game.getWorld().dimension.get(game.getLevel()))) && game.getWorld().isEmpty(nextpos2));
-    		}
+    	if(d!=null) {
+    		String obj=d.toString();
+        	if(obj.equals("Stone") || obj.equals("Tree") || obj.equals("DoorNextClosed")){
+        		return false;
+        	}else {
+        		if(obj.equals("Box")) {
+        			Position nextpos2= direction.nextPosition(nextPos);
+        			return ((nextpos2.inside(game.getWorld().getDimension())) && game.getWorld().isEmpty(nextpos2));
+        		}
+        	}
     	}
-        return true;        
+		return true;       
     }
 
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
         Decor d=game.getWorld().get(nextPos);
-        
-        if(d instanceof Box) {
-        	game.getWorld().clear(nextPos);
-        	game.getWorld().set(direction.nextPosition(nextPos), new Box());
-        	game.getWorld().setWorldchanged(true);
-        }  
-        if(d instanceof Heart) {
-        	game.getWorld().clear(nextPos);
-        	game.getWorld().setWorldchanged(true);
-        	setLives(lives+1);
+        if(d!=null) {
+        	String obj=d.toString();
+        	System.out.println(obj);
+	        if( obj.equals("Box")) {
+	        	game.getWorld().clear(nextPos);
+	        	game.getWorld().set(direction.nextPosition(nextPos), new Box());
+	        	game.getWorld().setWorldchanged(true);
+	        }  
+	        if(obj.equals("Heart")) {
+	        	game.getWorld().clear(nextPos);
+	        	game.getWorld().setWorldchanged(true);
+	        	setLives(lives+1);
+	        }
+	        if(obj.equals("Key")) {
+	        	game.getWorld().clear(nextPos);
+	        	game.getWorld().setWorldchanged(true);
+	        	setKeys(keys+1);
+	        }
+	        if(obj.equals("BombNumberDec")) {
+	        	if (getBombs()>0) {
+	        		game.getWorld().clear(nextPos);
+	            	game.getWorld().setWorldchanged(true);
+	            	setBombs(bombs-1);
+	        	}        	
+	        }
+	        if(obj.equals("BombNumberInc")) {
+	        	game.getWorld().clear(nextPos);
+	        	game.getWorld().setWorldchanged(true);
+	        	setBombs(bombs+1);
+	        }
+	        if(obj.equals("BombRangeDec")) {
+	        	if (getRangebomb()>1) {
+	        		game.getWorld().clear(nextPos);
+	            	game.getWorld().setWorldchanged(true);
+	            	setRangebomb(rangebomb-1);        		
+	        	}        	
+	        }
+	        if(obj.equals("BombRangeInc")) {
+	        	game.getWorld().clear(nextPos);
+	        	game.getWorld().setWorldchanged(true);
+	        	setRangebomb(rangebomb+1);
+	        }
+	        if(obj.equals("Princess")) {
+	        	this.winner=true;
+	        }
+	        if(obj.equals("DoorNextOpened")) {
+	        	game.setLevelChanged(true);
+	        	game.getWorld().setNextLevel(true);
+	        	game.setLevel(game.getLevel()+1);
+	        	
+	        }
+	        if(obj.equals("DoorPrevOpened")) {
+	        	game.setLevelChanged(true);
+	        	game.getWorld().setPrevLevel(true);
+	        	game.setLevel(game.getLevel()-1);
+	        	
+	        }
         }
-        if(d instanceof Key) {
-        	game.getWorld().clear(nextPos);
-        	game.getWorld().setWorldchanged(true);
-        	setKeys(keys+1);
-        }
-        if(d instanceof BombNumberDec) {
-        	if (getBombs()>0) {
-        		game.getWorld().clear(nextPos);
-            	game.getWorld().setWorldchanged(true);
-            	setBombs(bombs-1);
-        	}        	
-        }
-        if(d instanceof BombNumberInc) {
-        	game.getWorld().clear(nextPos);
-        	game.getWorld().setWorldchanged(true);
-        	setBombs(bombs+1);
-        }
-        if(d instanceof BombRangeDec) {
-        	if (getRangebomb()>1) {
-        		game.getWorld().clear(nextPos);
-            	game.getWorld().setWorldchanged(true);
-            	setRangebomb(rangebomb-1);        		
-        	}        	
-        }
-        if(d instanceof BombRangeInc) {
-        	game.getWorld().clear(nextPos);
-        	game.getWorld().setWorldchanged(true);
-        	setRangebomb(rangebomb+1);
-        }
-        if(d instanceof Princess) {
-        	this.winner=true;
-        }
-        if(d instanceof DoorNextClosed) {
-        	if (this.keys>0) {
-        		game.getWorld().clear(nextPos);            	
-            	game.getWorld().set(nextPos, new DoorNextOpened());
-            	game.getWorld().setWorldchanged(true);
-            	this.keys--;
-            	game.setlevelchanged(true);
-            	game.setLevel(game.getLevel()+1);
-        	}  
-        }
-        if(d instanceof DoorNextOpened) {
-        	game.setlevelchanged(true);
-        	game.setLevel(game.getLevel()+1);
-        }
-        if(d instanceof DoorPrevOpened) {
-        	game.setLevel(game.getLevel()-1);
-        }
-        
         
         List<Monster> monsters=game.getMonsters();
         monsters.forEach(m -> MoveOnMonster(m.getPosition()));
-        //Monster[]  monster = game.getMonsters();
-        /*int nbMonster = game.getnbMonsters();
-        for (int i=0; i<nbMonster; i++) {
-    		if (monster[i].getPosition().equals(this.getPosition()) ) {    			
-        		this.lives--;
-        		if (lives==0) {
-        			this.alive=false;
-        		}        		
-        	}
-        }*/
-        
     }
+    
+   public void OpenDoor() {
+	   Position nextPos = direction.nextPosition(getPosition());
+       Decor d=game.getWorld().get(nextPos);
+	   if(d!=null) {
+		   String obj=d.toString();
+		   if(obj.equals("DoorNextClosed")) {
+	        	if (this.keys>0) {
+	        		game.getWorld().clear(nextPos);            	
+	            	game.getWorld().set(nextPos, new DoorNextOpened());
+	            	game.getWorld().setWorldchanged(true);
+	            	this.keys--;
+	        	}
+		   }
+	   }
+   }
     
     public void MoveOnMonster(Position pos) {
     	if(pos.equals(this.getPosition())) {

@@ -24,34 +24,24 @@ public class Game {
 
     private final World world;
     private final Player player;
-    //private Monster[] Monsters;
     private List<Monster> Monsters = new ArrayList<>();
-    //private int nbMonsters;
     private final String worldPath;
     public int initPlayerLives;
     private String prefix;
     private int levels;
     private int Level=0;
-    private boolean levelchanged=false;
+    private boolean LevelChanged=false;
+    
+    public int getInitPlayerLives() {
+        return initPlayerLives;
+    }
     
     public Game(String worldPath) {    
         this.worldPath = worldPath;
         loadConfig(worldPath);
         world = new World(loadWorld(worldPath), levels);
-
         Position positionPlayer = null;
-        /*nbMonsters=world.NbMonsters();
-        Position[] MonstersPos=world.findMonsters(nbMonsters);
-
-        
-        Monsters=new Monster[nbMonsters];
-        for(int i=0; i<nbMonsters; i++) {
-        	Monsters[i]=new Monster(this, MonstersPos[i]);
-        }*/
-        
-        //version liste
         Monsters=world.findMonsters(this);
-        //Monsters2.forEach(m -> System.out.println(m.getPosition()));
         try {
             positionPlayer = world.findPlayer();
             player = new Player(this, positionPlayer);
@@ -61,9 +51,7 @@ public class Game {
         }
     }
 
-    public int getInitPlayerLives() {
-        return initPlayerLives;
-    }
+
 
     private void loadConfig(String path) {
         try (InputStream input = new FileInputStream(new File(path, "config.properties"))) {
@@ -111,9 +99,6 @@ public class Game {
     					//retourner erreur
     					//throw new IOExecption("soldat inconnue dans le bataillon");
     				}
-    				
-    				
-    				
     		    	System.out.print(newLevel[j][i]);
     			}
     			System.out.println();
@@ -137,16 +122,10 @@ public class Game {
     public Player getPlayer() {
         return this.player;
     }
-    /*public Monster[] getMonsters() {
-        return this.Monsters;
-    }*/
-    //
+    
     public List<Monster> getMonsters() {
         return this.Monsters;
     }
-    /*public int getnbMonsters() {
-        return this.nbMonsters;
-    }*/
 
 	public int getLevel() {
 		return Level;
@@ -155,15 +134,15 @@ public class Game {
 	public void setLevel(int i) {
 		Level=i;
 		this.getWorld().setCurrent_lvl(i);
+	}
+		
+	public void setLevelChanged(boolean bool) {
+		this.LevelChanged=bool;
 		
 	}
 	
-    public void setlevelchanged(boolean bool) {
-    	levelchanged=bool;
-    }
-    public boolean getlevelchanged() {
-    	return levelchanged;
-    }
-
+	public boolean isLevelChanged() {
+		return LevelChanged;
+	}
 
 }

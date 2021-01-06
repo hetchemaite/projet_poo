@@ -37,9 +37,15 @@ public class Monster extends GameObject implements Movable {
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         Decor d=game.getWorld().get(nextPos);
-        if( !(nextPos.inside(game.getWorld().dimension.get(game.getLevel()))) || d instanceof Stone || d instanceof Tree || d instanceof Box || d instanceof Key || d instanceof DoorPrevOpened || d instanceof  DoorNextOpened || d instanceof DoorNextClosed || d instanceof Princess ) {
-            return false;
+        if(!(nextPos.inside(game.getWorld().getDimension())))
+        	return false;
+        if(d!=null) {
+        	String obj=d.toString();
+        	 if(obj.equals("Box") || obj.equals("Stone") || obj.equals("Tree")) {
+                 return false;
+             }
         }
+       
         return true;
     }
 
@@ -47,7 +53,9 @@ public class Monster extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
     }
+    
     public int i=0;
+    
     public void update(long now) {
         i++;
         if(i==60) {
@@ -60,7 +68,6 @@ public class Monster extends GameObject implements Movable {
             }
         }
         moveRequested = false;
-    	//faire bouger aléatoirement
     }
 
     public boolean isAlive() {
