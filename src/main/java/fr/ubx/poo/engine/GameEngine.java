@@ -8,6 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteBomb;
 import fr.ubx.poo.view.sprite.SpriteFactory;
+import fr.ubx.poo.view.sprite.SpriteGameObject;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.PositionNotFoundException;
 import fr.ubx.poo.model.go.character.Player;
@@ -31,6 +32,7 @@ import java.util.List;
 import javafx.animation.AnimationTimer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 public final class GameEngine {
 
@@ -170,13 +172,11 @@ public final class GameEngine {
     		initialize(stage,game);
     	}
     	//for Eeach if state<=0 then timer.cancel et boom
-    	Bombs.forEach(b -> System.out.println(b.getState()));
     	Bombs.forEach(b -> b.update());
-    	Bombs.removeIf(b -> b.getState()<=0); 
-    	
+    	Bombs.removeIf(b -> b.getState()<=0);
         player.update(now);
         Monsters.forEach(m -> m.update(now));
-
+        Monsters.removeIf(m ->!m.isAlive());
         if (player.isAlive() == false) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
@@ -190,10 +190,21 @@ public final class GameEngine {
     private void render() {
     	if(this.game.getWorld().isWorldchanged()) {
     		sprites.forEach(Sprite::remove);
-    		sprites.clear();
+    		sprites.clear();  
     		game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
     		game.getWorld().setWorldchanged(false);
     	}
+    	if(!spritesBombs.isEmpty()){
+    		spritesBombs.forEach(Sprite::remove);
+    		spritesBombs.clear();
+    		Bombs.forEach(b-> spritesBombs.add(SpriteFactory.createBomb(layer, b)));
+    	}
+    	if(!spritesMonsters.isEmpty()) {
+    		spritesMonsters.forEach(Sprite::remove);
+    		spritesMonsters.clear();
+    		Monsters.forEach(m-> spritesMonsters.add(SpriteFactory.createMonster(layer, m)));
+    	}
+
         sprites.forEach(Sprite::render);
         spritesMonsters.forEach(Sprite::render);
         spritesBombs.forEach(Sprite::render);

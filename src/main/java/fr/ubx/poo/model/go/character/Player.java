@@ -172,7 +172,7 @@ public class Player extends GameObject implements Movable {
         }
         
         List<Monster> monsters=game.getMonsters();
-        monsters.forEach(m -> MoveOnMonster(m.getPosition()));
+        monsters.forEach(m -> GetHit(m.getPosition()));
     }
     
    public void OpenDoor() {
@@ -191,7 +191,7 @@ public class Player extends GameObject implements Movable {
 	   }
    }
     
-    public void MoveOnMonster(Position pos) {
+   public void GetHit(Position pos) {
     	if(pos.equals(this.getPosition())) {
     		this.lives--;
     		if(lives==0)

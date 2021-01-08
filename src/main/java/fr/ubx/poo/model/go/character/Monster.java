@@ -69,9 +69,16 @@ public class Monster extends GameObject implements Movable {
         }
         moveRequested = false;
     }
+    
+    public void GetHit(Position pos) {
+    	if(pos.equals(this.getPosition()))
+    		this.alive=false;
+    }
 
     public boolean isAlive() {
         return alive;
     }
+    
+    
 
 }

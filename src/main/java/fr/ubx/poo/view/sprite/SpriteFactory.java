@@ -16,6 +16,7 @@ import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.DoorNextClosed;
 import fr.ubx.poo.model.decor.DoorNextOpened;
 import fr.ubx.poo.model.decor.DoorPrevOpened;
+import fr.ubx.poo.model.decor.Explosion;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.Princess;
@@ -58,6 +59,9 @@ public final class SpriteFactory {
         	return new SpriteDecor(layer, factory.get(DOORNEXTOPENED), position);
         if (decor instanceof DoorPrevOpened)
         	return new SpriteDecor(layer, factory.get(DOORPREVOPENED), position);
+        if (decor instanceof Explosion) {
+        	return new SpriteDecor(layer, factory.get(EXPLOSION), position);
+        }
         return null;
     }
 
