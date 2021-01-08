@@ -94,7 +94,7 @@ public class Bomb extends GameObject {
 		if(explosion || d==null) {
 			game.getWorld().set(pos, new Explosion());
 			game.getPlayer().GetHit(pos);
-			game.getMonsters().forEach(m -> m.Ge<>
+			game.getMonsters().forEach(m -> m.GetHit(pos));
 			
 			TimerTask suprexplosion=new TimerTask() {
 			    public void run() {
