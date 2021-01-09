@@ -101,6 +101,12 @@ public class Player extends GameObject implements Movable {
         	}else {
         		if(obj.equals("Box")) {
         			Position nextpos2= direction.nextPosition(nextPos);
+        			
+        			for(Monster  m : game.getMonsters()) {
+        				if(m.getPosition().equals(nextpos2)) {
+        					return false;
+        				}
+        			}
         			return ((nextpos2.inside(game.getWorld().getDimension())) && game.getWorld().isEmpty(nextpos2));
         		}
         	}
@@ -131,7 +137,7 @@ public class Player extends GameObject implements Movable {
 	        	setKeys(keys+1);
 	        }
 	        if(obj.equals("BombNumberDec")) {
-	        	if (getBombs()>0) {
+	        	if (getBombs()>1) {
 	        		game.getWorld().clear(nextPos);
 	            	game.getWorld().setWorldchanged(true);
 	            	setBombs(bombs-1);
@@ -170,9 +176,7 @@ public class Player extends GameObject implements Movable {
 	        	
 	        }
         }
-        
-        List<Monster> monsters=game.getMonsters();
-        monsters.forEach(m -> GetHit(m.getPosition()));
+        isOnMonster();
     }
     
    public void OpenDoor() {
@@ -190,13 +194,22 @@ public class Player extends GameObject implements Movable {
 		   }
 	   }
    }
-    
-   public void GetHit(Position pos) {
+   public void isOnMonster() {
+	  for(Monster m : game.getMonsters()) {
+		  if(GetHit(m.getPosition())) {
+			  break;
+		  }
+	  }
+   }
+   
+   public boolean GetHit(Position pos) {
     	if(pos.equals(this.getPosition())) {
     		this.lives--;
     		if(lives==0)
     			this.alive=false;
+    		return true;
         }
+    	return false;
     }
     
     public Bomb putBomb(long now) {

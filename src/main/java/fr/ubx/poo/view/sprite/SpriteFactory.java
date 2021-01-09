@@ -30,37 +30,40 @@ import javafx.scene.layout.Pane;
 
 
 public final class SpriteFactory {
-
+    
     public static Sprite createDecor(Pane layer, Position position, Decor decor) {
         ImageFactory factory = ImageFactory.getInstance();
-        if (decor instanceof Stone)
-            return new SpriteDecor(layer, factory.get(STONE), position);
-        if (decor instanceof Tree)
-            return new SpriteDecor(layer, factory.get(TREE), position);
-        if (decor instanceof Box)
-            return new SpriteDecor(layer, factory.get(BOX), position);
-        if (decor instanceof Heart)
-        	return new SpriteDecor(layer, factory.get(HEART), position);
-        if (decor instanceof Key)
-        	return new SpriteDecor(layer, factory.get(KEY), position);
-        if (decor instanceof BombRangeInc)
-        	return new SpriteDecor(layer, factory.get(BOMBRANGEINC), position);
-        if (decor instanceof BombRangeDec)
-        	return new SpriteDecor(layer, factory.get(BOMBRANGEDEC), position);
-        if (decor instanceof BombNumberInc)
-        	return new SpriteDecor(layer, factory.get(BOMBNUMBERINC), position);
-        if (decor instanceof BombNumberDec)
-        	return new SpriteDecor(layer, factory.get(BOMBNUMBERDEC), position);
-        if (decor instanceof Princess)
-        	return new SpriteDecor(layer, factory.get(PRINCESS), position);
-        if (decor instanceof DoorNextClosed)
-        	return new SpriteDecor(layer, factory.get(DOORNEXTCLOSED), position);
-        if (decor instanceof DoorNextOpened)
-        	return new SpriteDecor(layer, factory.get(DOORNEXTOPENED), position);
-        if (decor instanceof DoorPrevOpened)
-        	return new SpriteDecor(layer, factory.get(DOORPREVOPENED), position);
-        if (decor instanceof Explosion) {
-        	return new SpriteDecor(layer, factory.get(EXPLOSION), position);
+        if (decor!=null) {
+            String obj = decor.toString();           
+            if (obj.equals("Stone"))
+                return new SpriteDecor(layer, factory.get(STONE), position);
+            if (obj.equals("Tree"))
+                return new SpriteDecor(layer, factory.get(TREE), position);
+            if (obj.equals("Box"))
+                return new SpriteDecor(layer, factory.get(BOX), position);
+            if (obj.equals("Heart"))
+                return new SpriteDecor(layer, factory.get(HEART), position);
+            if (obj.equals("Key"))
+                return new SpriteDecor(layer, factory.get(KEY), position);
+            if (obj.equals("BombRangeInc"))
+                return new SpriteDecor(layer, factory.get(BOMBRANGEINC), position);
+            if (obj.equals("BombRangeDec"))
+                return new SpriteDecor(layer, factory.get(BOMBRANGEDEC), position);
+            if (obj.equals("BombNumberInc"))
+                return new SpriteDecor(layer, factory.get(BOMBNUMBERINC), position);
+            if (obj.equals("BombNumberDec"))
+                return new SpriteDecor(layer, factory.get(BOMBNUMBERDEC), position);
+            if (obj.equals("Princess"))
+                return new SpriteDecor(layer, factory.get(PRINCESS), position);
+            if (obj.equals("DoorNextClosed"))
+                return new SpriteDecor(layer, factory.get(DOORNEXTCLOSED), position);
+            if (obj.equals("DoorNextOpened"))
+                return new SpriteDecor(layer, factory.get(DOORNEXTOPENED), position);
+            if (obj.equals("DoorPrevOpened"))
+                return new SpriteDecor(layer, factory.get(DOORPREVOPENED), position);
+            if (obj.equals("Explosion"))
+            	return new SpriteDecor(layer, factory.get(EXPLOSION), position);
+            
         }
         return null;
     }

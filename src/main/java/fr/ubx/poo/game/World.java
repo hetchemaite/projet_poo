@@ -88,14 +88,26 @@ public class World {
     public Decor get(Position position) {
         return grid.get(current_lvl).get(position);
     }
+    
+    public Decor get(Position position, int level) {
+        return grid.get(level).get(position);
+    }
 
     public void set(Position position, Decor decor) {
         grid.get(current_lvl).put(position, decor);
     }
+    
+	public void set(Position position, Decor decor, int level) {
+		 grid.get(level).put(position, decor);
+	}
 
     public void clear(Position position) {
         grid.get(current_lvl).remove(position);
     }
+    
+	public void clear(Position position, int level) {
+		 grid.get(level).remove(position);
+	}
 
     public void forEach(BiConsumer<Position, Decor> fn) {
         grid.get(current_lvl).forEach(fn);
@@ -147,6 +159,10 @@ public class World {
 	public boolean isNextLevel() {
 		return this.NextLevel;
 	}
+	
+
+
+
 
 	
 }

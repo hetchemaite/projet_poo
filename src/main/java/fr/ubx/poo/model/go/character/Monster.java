@@ -41,7 +41,7 @@ public class Monster extends GameObject implements Movable {
         	return false;
         if(d!=null) {
         	String obj=d.toString();
-        	 if(obj.equals("Box") || obj.equals("Stone") || obj.equals("Tree")) {
+        	 if(obj.equals("Box") || obj.equals("Stone") || obj.equals("Tree") || obj.equals("DoorNextClosed") || obj.equals("DoorNextOpened") || obj.equals("DoorPrevOpened") || obj.equals("Princess")) {
                  return false;
              }
         }
@@ -52,6 +52,7 @@ public class Monster extends GameObject implements Movable {
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
+        game.getPlayer().GetHit(nextPos);
     }
     
     public int i=0;

@@ -33,6 +33,7 @@ import javafx.animation.AnimationTimer;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public final class GameEngine {
 
@@ -62,7 +63,6 @@ public final class GameEngine {
     }
 
     private void initialize(Stage stage, Game game) {
-    	System.out.println("YOOOOOOOO");
         this.stage = stage;
         Group root = new Group();
         layer = new Pane();
@@ -169,6 +169,7 @@ public final class GameEngine {
     	if(game.isLevelChanged()) {
     		System.out.println("test");
     		game.setLevelChanged(false);
+    		closegame();
     		initialize(stage,game);
     	}
     	//for Eeach if state<=0 then timer.cancel et boom
@@ -197,7 +198,8 @@ public final class GameEngine {
     	if(!spritesBombs.isEmpty()){
     		spritesBombs.forEach(Sprite::remove);
     		spritesBombs.clear();
-    		Bombs.forEach(b-> spritesBombs.add(SpriteFactory.createBomb(layer, b)));
+    		//Bombs.forEach(b-> spritesBombs.add(SpriteFactory.createBomb(layer, b)));
+    		Bombs.stream().filter(b -> b.getLevelBomb()==game.getLevel()).collect(Collectors.toList()).forEach(b ->  spritesBombs.add(SpriteFactory.createBomb(layer, b)));
     	}
     	if(!spritesMonsters.isEmpty()) {
     		spritesMonsters.forEach(Sprite::remove);
@@ -217,7 +219,11 @@ public final class GameEngine {
     public void start() {
         gameLoop.start();
     }
-
+    
+    public void closegame() {
+    	sprites.clear(); 
+    	spritesMonsters.clear();
+    }
     
     /*private void moveAutomatically(){
         Timer t = new Timer();
