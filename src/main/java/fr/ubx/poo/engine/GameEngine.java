@@ -92,7 +92,7 @@ public final class GameEngine {
         //clear des listes initialisés pour les changements de niveaux
         sprites.clear(); 
     	spritesMonsters.clear();
-    	Monsters.forEach(m -> m.Kill());
+    	Monsters.forEach(m -> m.Kill2());
         Monsters.clear();
         Monsters.addAll(game.getWorld().findMonsters(game));
         //
@@ -195,9 +195,10 @@ public final class GameEngine {
     		game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
     		game.getWorld().setWorldchanged(false);
     	}
-    	if(!spritesBombs.isEmpty()){
+    	if(!spritesBombs.isEmpty() || (!Bombs.stream().filter(b -> b.getLevelBomb()==game.getLevel()).collect(Collectors.toList()).isEmpty())){
     		spritesBombs.forEach(Sprite::remove);
     		spritesBombs.clear();
+    		//on ajoute a spritesBombs les bombs du niveau actuel
     		Bombs.stream().filter(b -> b.getLevelBomb()==game.getLevel()).collect(Collectors.toList()).forEach(b ->  spritesBombs.add(SpriteFactory.createBomb(layer, b)));
     	}
     	if(!spritesMonsters.isEmpty()) {

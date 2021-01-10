@@ -19,17 +19,30 @@ public class Monster extends GameObject implements Movable {
     private boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
+    private int lives = 1;
+    Boolean Boss=false;
+    private boolean invicible;
     Timer t=new Timer();
-
+	
+    
     public Monster(Game game, Position position) {
         super(game, position);
         this.direction = Direction.S;
+        if(game.getLevel()==3) {
+        	lives=3;
+        	Boss=true;
+        }
+        
+        //timer pour les mouvement des monstres
+        int time=1500-(500*(game.getLevel()-1));
+        if(time < 500)
+        	time=500;
         t.scheduleAtFixedRate(new TimerTask() {
         	public void run() {
-        		if(game.getLevel()==0) {
+        		if(game.getLevel()==0 || game.getLevel()==1) { //déplacement aléatoire
         			requestMove(Direction.random());
-        		}else {
-        			
+        		}else { // mouvement dirigé vers le player et seulement des mouvement possibles
+        			//On reçoit une liste des directions qui rapproche le + du player puis on vérifie si on peut faire ces mouvement
         			Direction[] ListBetterDirection=getPosition().GetDirection(game.getPlayer().getPosition());
         			int i=0;
         			while(i!=4 && !canMove(ListBetterDirection[i])){
@@ -43,7 +56,7 @@ public class Monster extends GameObject implements Movable {
         			
         		}
             }
-        }, 1000,1500-(500*(game.getLevel()-1)));
+        }, 1000,time);
     }
 
     public Direction getDirection() {
@@ -94,18 +107,70 @@ public class Monster extends GameObject implements Movable {
     }
     
     public void GetHit(Position pos) {
-    	if(pos.equals(this.getPosition()))
-    		Kill();
+    	if(pos.equals(this.getPosition())) {
+    		this.lives--;
+    		if(lives==0)
+        		Kill();
+    		//invincibilité temporaire
+			setInvicible(true);
+			TimerTask invincibility=new TimerTask() {
+				public void run() {
+				    setInvicible(false);
+				}
+			};
+			Timer t = new Timer();
+			t.schedule(invincibility,1500);
+    	}
     }
     
-    public void Kill() {
+   
+
+	public void Kill2() {
+		if(isBoss()) {
+	    	this.alive=false;
+	    	t.cancel();
+		}
+		else{
+			Kill();
+		}
+    }
+	public void Kill() {
+    	if(isBoss()) {
+    		// si c'est un boss il drop un clé dans 775 millisec
+			TimerTask dropKey=new TimerTask() {
+			    public void run() {
+			    		game.getWorld().set(getPosition(), new Key());
+			    		game.getWorld().setWorldchanged(true);
+			    }
+			};
+			Timer d = new Timer();
+			d.schedule(dropKey,775);
+    	}
     	this.alive=false;
     	t.cancel();
-    }
+	}
     public boolean isAlive() {
         return alive;
     }
     
+    public void setLives(int lives) {
+    	this.lives=lives;
+    }
+    public int getLives() {
+    	return this.lives;
+    }
     
+    public boolean isBoss() {
+    	return this.Boss;
+    }
+
+	public boolean isInvicible() {
+		return this.invicible;
+	}
+    
+    private void setInvicible(boolean b) {
+    	this.invicible=b;
+		
+	}
 
 }

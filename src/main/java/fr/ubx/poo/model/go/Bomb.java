@@ -54,6 +54,7 @@ public class Bomb extends GameObject {
 	public void explosion() {
 		Position pos=this.getPosition();
 		clear(pos);
+		//explosion dans chacune des directions
 		for(int i=1; i<=range; i++){
 			if (clear(new Position(pos.x +i, pos.y)))
 				break;
@@ -99,6 +100,7 @@ public class Bomb extends GameObject {
 				game.getPlayer().GetHit(pos);
 				game.getMonsters().forEach(m -> m.GetHit(pos));
 			}
+			//suppresion des sprites d'explosion dans 750millisec
 			TimerTask suprexplosion=new TimerTask() {
 			    public void run() {
 			    	game.getWorld().clear(pos,level);

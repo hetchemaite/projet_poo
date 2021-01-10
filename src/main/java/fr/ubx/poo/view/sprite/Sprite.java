@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.model.go.character.Monster;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -67,6 +68,29 @@ public abstract class Sprite {
    			  	t.scheduleAtFixedRate(invicibility, 250, 250);
         	}
         	imageView.setEffect(sp.effect());
+        }
+        if(this instanceof SpriteMonster) {
+        	SpriteMonster sm=(SpriteMonster) this;
+        	Monster monster=(Monster) sm.go;
+        	if(monster.isInvicible() && !sm.getInvicibilityAnim()) {
+        		Timer m = new Timer();
+        		sm.inverseBrightness();
+        		sm.setInvicibilityAnim(true);
+        		TimerTask invicibility2=new TimerTask() {
+					public void run() {
+						sm.inverseBrightness();
+						if(!monster.isInvicible()) {
+        					if(sm.effect().getBrightness()==0.75)
+        						sm.inverseBrightness();
+        					
+        					sm.setInvicibilityAnim(false);
+        					cancel();
+        				}
+					}
+        		};
+   			  	m.scheduleAtFixedRate(invicibility2, 250, 250);
+        	}
+        	imageView.setEffect(sm.effect());
         }
         layer.getChildren().add(imageView);
     }

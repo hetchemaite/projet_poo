@@ -37,10 +37,8 @@ public class SpritePlayer extends SpriteGameObject {
     
     public void inverseBrightness() {
     	if(effect().getBrightness()==0.75) {
-    		System.out.println("==");
     		effect.setBrightness(0);
     	}else {
-    		System.out.println("!=");
     		effect.setBrightness(0.75);
     	}
     }

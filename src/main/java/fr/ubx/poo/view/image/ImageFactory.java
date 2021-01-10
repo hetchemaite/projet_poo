@@ -20,6 +20,13 @@ public final class ImageFactory {
     private final ImageResource[] directions_monster = new ImageResource[] {
     		MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
     };
+    
+    private final ImageResource[] directions_Boss = new ImageResource[] {
+    		BOSS_UP, BOSS_RIGHT, BOSS_DOWN, BOSS_LEFT,
+    		BOSS2_UP, BOSS2_RIGHT, BOSS2_DOWN, BOSS2_LEFT,
+    		BOSS3_UP, BOSS3_RIGHT, BOSS3_DOWN, BOSS3_LEFT, 
+    };
+
 
     private final ImageResource[] digits = new ImageResource[]{
             DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3, DIGIT_4,
@@ -65,7 +72,10 @@ public final class ImageFactory {
         return get(directions[direction.ordinal()]);
     }
     
-    public Image getMonster(Direction direction) {
+    public Image getMonster(Direction direction, int lives, boolean Boss) {
+        if(Boss) {
+        	return get(directions_Boss[direction.ordinal() + 4*(lives-1)]);
+        }
     	return get(directions_monster[direction.ordinal()]);
     }
     

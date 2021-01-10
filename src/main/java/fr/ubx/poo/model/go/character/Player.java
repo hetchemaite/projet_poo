@@ -212,7 +212,7 @@ public class Player extends GameObject implements Movable {
     		this.lives--;
     		if(lives==0)
     			this.alive=false;
-    		
+    		//invincibilité temporaire
 			setInvicible(true);
 			TimerTask invincibility=new TimerTask() {
 				public void run() {
