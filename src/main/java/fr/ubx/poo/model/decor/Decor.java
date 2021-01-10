@@ -11,9 +11,6 @@ import fr.ubx.poo.model.Entity;
  */
 public class Decor extends Entity {
 
-	/*void MoveOnDecor(Decor a) {
-		
-	}*/
 	public String toString() {
         return "Decor";
     }

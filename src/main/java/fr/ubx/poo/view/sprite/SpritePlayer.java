@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 
 public class SpritePlayer extends SpriteGameObject {
     private final ColorAdjust effect = new ColorAdjust();
-
+    private boolean invicibilityAnim=false;
     public SpritePlayer(Pane layer, Player player) {
         super(layer, null, player);
         updateImage();
@@ -22,4 +22,27 @@ public class SpritePlayer extends SpriteGameObject {
         Player player = (Player) go;
         setImage(ImageFactory.getInstance().getPlayer(player.getDirection()));
     }
+    public ColorAdjust effect() {
+    	return this.effect;
+    }
+    
+    public boolean getInvicibilityAnim() {
+    	return this.invicibilityAnim;
+    }
+    
+    public void setInvicibilityAnim(boolean bool) {
+    	this.invicibilityAnim=bool;
+    }
+    
+    
+    public void inverseBrightness() {
+    	if(effect().getBrightness()==0.75) {
+    		System.out.println("==");
+    		effect.setBrightness(0);
+    	}else {
+    		System.out.println("!=");
+    		effect.setBrightness(0.75);
+    	}
+    }
+    
 }

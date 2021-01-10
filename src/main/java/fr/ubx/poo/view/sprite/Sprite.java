@@ -4,7 +4,11 @@
 
 package fr.ubx.poo.view.sprite;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.model.go.character.Player;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -39,6 +43,31 @@ public abstract class Sprite {
         imageView = new ImageView(this.image);
         imageView.setX(getPosition().x * size);
         imageView.setY(getPosition().y * size);
+        //affichage effet visuel lors de l'invicibilité aprés avoir recu un coup
+        if(this instanceof SpritePlayer) {
+        	SpritePlayer sp=(SpritePlayer) this;
+        	Player player=(Player )sp.go;
+        	if(player.isInvicible() && !sp.getInvicibilityAnim()) {
+        		Timer t = new Timer();
+        		sp.inverseBrightness();
+        		sp.setInvicibilityAnim(true);
+        		TimerTask invicibility=new TimerTask() {
+        			public void run() {
+        				sp.inverseBrightness();
+        				if(!player.isInvicible()) {
+        					if(sp.effect().getBrightness()==0.75)
+        						sp.inverseBrightness();
+        					
+        					sp.setInvicibilityAnim(false);
+        					cancel();
+                			
+        				}
+        			}
+   			  	};
+   			  	t.scheduleAtFixedRate(invicibility, 250, 250);
+        	}
+        	imageView.setEffect(sp.effect());
+        }
         layer.getChildren().add(imageView);
     }
 

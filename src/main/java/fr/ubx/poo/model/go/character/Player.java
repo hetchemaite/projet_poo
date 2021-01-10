@@ -5,15 +5,14 @@
 package fr.ubx.poo.model.go.character;
 
 
-import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.Stone;
-import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
@@ -28,6 +27,7 @@ public class Player extends GameObject implements Movable {
     private int keys = 0;
     private int rangebomb = 1;
     private boolean winner;
+    private boolean invincible=false;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -86,6 +86,12 @@ public class Player extends GameObject implements Movable {
         }
         moveRequested = true;
     }
+    public boolean isInvicible() {
+    	return invincible;
+    }
+    public void setInvicible(boolean bool) {
+    	invincible=bool;
+    }
 
     @Override
     public boolean canMove(Direction direction) {
@@ -113,6 +119,12 @@ public class Player extends GameObject implements Movable {
     	}
 		return true;       
     }
+    
+    public void clear(Position nextPos) {
+    	game.getWorld().clear(nextPos);
+    	game.getWorld().setWorldchanged(true);
+    }
+    
 
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
@@ -120,44 +132,37 @@ public class Player extends GameObject implements Movable {
         Decor d=game.getWorld().get(nextPos);
         if(d!=null) {
         	String obj=d.toString();
-        	System.out.println(obj);
 	        if( obj.equals("Box")) {
-	        	game.getWorld().clear(nextPos);
+	        	clear(nextPos);
 	        	game.getWorld().set(direction.nextPosition(nextPos), new Box());
 	        	game.getWorld().setWorldchanged(true);
 	        }  
 	        if(obj.equals("Heart")) {
-	        	game.getWorld().clear(nextPos);
-	        	game.getWorld().setWorldchanged(true);
+	        	clear(nextPos);
 	        	setLives(lives+1);
 	        }
 	        if(obj.equals("Key")) {
-	        	game.getWorld().clear(nextPos);
-	        	game.getWorld().setWorldchanged(true);
+	        	clear(nextPos);
 	        	setKeys(keys+1);
 	        }
 	        if(obj.equals("BombNumberDec")) {
 	        	if (getBombs()>1) {
-	        		game.getWorld().clear(nextPos);
-	            	game.getWorld().setWorldchanged(true);
+	        		clear(nextPos);
 	            	setBombs(bombs-1);
 	        	}        	
 	        }
 	        if(obj.equals("BombNumberInc")) {
-	        	game.getWorld().clear(nextPos);
-	        	game.getWorld().setWorldchanged(true);
+	        	clear(nextPos);
 	        	setBombs(bombs+1);
 	        }
 	        if(obj.equals("BombRangeDec")) {
 	        	if (getRangebomb()>1) {
-	        		game.getWorld().clear(nextPos);
-	            	game.getWorld().setWorldchanged(true);
+	        		clear(nextPos);
 	            	setRangebomb(rangebomb-1);        		
 	        	}        	
 	        }
 	        if(obj.equals("BombRangeInc")) {
-	        	game.getWorld().clear(nextPos);
-	        	game.getWorld().setWorldchanged(true);
+	        	clear(nextPos);
 	        	setRangebomb(rangebomb+1);
 	        }
 	        if(obj.equals("Princess")) {
@@ -186,7 +191,7 @@ public class Player extends GameObject implements Movable {
 		   String obj=d.toString();
 		   if(obj.equals("DoorNextClosed")) {
 	        	if (this.keys>0) {
-	        		game.getWorld().clear(nextPos);            	
+	        		clear(nextPos);          	
 	            	game.getWorld().set(nextPos, new DoorNextOpened());
 	            	game.getWorld().setWorldchanged(true);
 	            	this.keys--;
@@ -203,10 +208,20 @@ public class Player extends GameObject implements Movable {
    }
    
    public boolean GetHit(Position pos) {
-    	if(pos.equals(this.getPosition())) {
+    	if(pos.equals(this.getPosition()) && !isInvicible()) {
     		this.lives--;
     		if(lives==0)
     			this.alive=false;
+    		
+			setInvicible(true);
+			TimerTask invincibility=new TimerTask() {
+				public void run() {
+				    setInvicible(false);
+				}
+			};
+			Timer t = new Timer();
+			t.schedule(invincibility,1500);
+			
     		return true;
         }
     	return false;

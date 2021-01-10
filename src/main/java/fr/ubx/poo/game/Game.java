@@ -96,12 +96,9 @@ public class Game {
     				if(e.isPresent()) {
     					newLevel[j][i]=e.get();
     				}else {
-    					//retourner erreur
-    					//throw new IOExecption("soldat inconnue dans le bataillon");
+    					throw new IOException("unknow character : " + line.charAt(i));
     				}
-    		    	System.out.print(newLevel[j][i]);
     			}
-    			System.out.println();
     			j++;
     		}
     		fd.close();

@@ -86,16 +86,19 @@ public final class GameEngine {
         try {
         	player.setPosition(game.getWorld().findPlayer());
         }catch(PositionNotFoundException e) {
-        	
+        	System.err.println("Position not found : " + e.getLocalizedMessage());
+            throw new RuntimeException(e);
         }
-        //
+        //clear des listes initialisés pour les changements de niveaux
+        sprites.clear(); 
+    	spritesMonsters.clear();
+    	Monsters.forEach(m -> m.Kill());
         Monsters.clear();
         Monsters.addAll(game.getWorld().findMonsters(game));
+        //
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         Monsters.forEach(m -> spritesMonsters.add(SpriteFactory.createMonster(layer, m)));
-        //moveAutomatically();
-
     }
 
     protected final void buildAndSetGameLoop() {
@@ -141,7 +144,6 @@ public final class GameEngine {
         		Bombs.add(b);
             	spritesBombs.add(SpriteFactory.createBomb(layer, b));
         	}
-        	
         }
         input.clear();
     }
@@ -167,12 +169,10 @@ public final class GameEngine {
 
     private void update(long now) {
     	if(game.isLevelChanged()) {
-    		System.out.println("test");
     		game.setLevelChanged(false);
-    		closegame();
+    		stage.close();
     		initialize(stage,game);
     	}
-    	//for Eeach if state<=0 then timer.cancel et boom
     	Bombs.forEach(b -> b.update());
     	Bombs.removeIf(b -> b.getState()<=0);
         player.update(now);
@@ -198,7 +198,6 @@ public final class GameEngine {
     	if(!spritesBombs.isEmpty()){
     		spritesBombs.forEach(Sprite::remove);
     		spritesBombs.clear();
-    		//Bombs.forEach(b-> spritesBombs.add(SpriteFactory.createBomb(layer, b)));
     		Bombs.stream().filter(b -> b.getLevelBomb()==game.getLevel()).collect(Collectors.toList()).forEach(b ->  spritesBombs.add(SpriteFactory.createBomb(layer, b)));
     	}
     	if(!spritesMonsters.isEmpty()) {
@@ -220,17 +219,4 @@ public final class GameEngine {
         gameLoop.start();
     }
     
-    public void closegame() {
-    	sprites.clear(); 
-    	spritesMonsters.clear();
-    }
-    
-    /*private void moveAutomatically(){
-        Timer t = new Timer();
-        t.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-            	
-            }
-        }, 2,1500);
-    }*/
 }

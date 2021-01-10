@@ -35,7 +35,15 @@ public class World {
     }
 
     public World(WorldEntity[][] mapentities) {
-		// TODO Auto-generated constructor stub
+    	List<WorldEntity[][]> mapentities2= new ArrayList<>();
+    	mapentities2.add(mapentities);
+        for(WorldEntity[][] r : mapentities2){
+        	this.raw.add(r);
+        	Dimension dim=new Dimension(r.length, r[0].length);
+        	dimension.add (new Dimension(r.length, r[0].length));
+        	grid.add (  WorldBuilder.build(r, dim));
+         }
+		
 	}
 
 	public Position findPlayer() throws PositionNotFoundException {
@@ -60,7 +68,6 @@ public class World {
 		for (int x = 0; x < getDimension().width; x++) {
             for (int y = 0; y < getDimension().height; y++) {
             		if(raw.get(current_lvl)[y][x] == e ) {
-            			System.out.println(x+y);
             			return new Position(x,y);
             	}
             }
@@ -69,13 +76,11 @@ public class World {
 	}
 	
     
-    //version liste
 	public List<Monster> findMonsters(Game game) {
 		List<Monster> Monsters = new ArrayList<>();
         for (int x = 0; x <  getDimension().width; x++) {
             for (int y = 0; y <  getDimension().height; y++) {
                 if (raw.get(current_lvl)[y][x] == WorldEntity.Monster) {
-                    //;
                     Monsters.add(new Monster(game, new Position(x,y)));
                 }
             }
@@ -118,8 +123,8 @@ public class World {
     }
 
     public boolean isInside(Position position) {
-        return true; // to update
-    }
+        return true;//
+    }///////////////////
 
     public boolean isEmpty(Position position) {
         return grid.get(current_lvl).get(position) == null;
